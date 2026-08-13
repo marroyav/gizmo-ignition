@@ -240,6 +240,6 @@
     "documentation": "Alarm threshold active in the measurement engine.",
     "engUnit": "Ohm",
     "engLow": 0.0,
-    "engHigh": 1000000.0
+    "engHigh": 1023.0
   }
 ]

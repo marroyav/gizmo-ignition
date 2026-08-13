@@ -1041,7 +1041,7 @@
           "shrink": 1
         },
         "props": {
-          "text": "The GIZMo is offline, so Bad/Disconnected quality overlays are expected. All 431 canonical variables are configured under [default]GIZMo.",
+          "text": "The GIZMo is offline, so Bad/Disconnected quality overlays are expected. All 457 canonical variables are configured under [default]GIZMo.",
           "textStyle": {
             "color": "#c3c9cf",
             "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",

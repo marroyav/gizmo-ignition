@@ -101,11 +101,62 @@ def project_resource(files: list[str]) -> dict[str, Any]:
     return value
 
 
+def _contract_variables(raw: dict[str, Any]) -> list[dict[str, Any]]:
+    objects = {
+        str(item["path"]): item
+        for item in raw.get("objects", [])
+        if isinstance(item, dict) and "path" in item
+    }
+
+    def object_browse_path(path: str) -> tuple[str, ...]:
+        parts: list[str] = []
+        observed: set[str] = set()
+        while path != "Device":
+            if path in observed or path not in objects:
+                raise ValueError(f"invalid contract object hierarchy at {path}")
+            observed.add(path)
+            item = objects[path]
+            parts.append(str(item["browse_name"]))
+            parent = item.get("parent")
+            if not isinstance(parent, str):
+                raise ValueError(f"contract object has no parent: {path}")
+            path = parent
+        return tuple(reversed(parts))
+
+    variables: list[dict[str, Any]] = []
+    for item in raw["variables"]:
+        parent = str(item["parent"])
+        path = "/".join((*object_browse_path(parent), str(item["browse_name"])))
+        unit = item.get("engineering_unit")
+        access = item.get("access_by_platform", {})
+        writable = item.get("access") == "ReadWrite" or (
+            isinstance(access, dict) and access.get("kria") == "ReadWrite"
+        )
+        variables.append(
+            {
+                "path": path,
+                "node_id": item["node_id"],
+                "data_type": item["data_type"],
+                "writable": writable,
+                "description": item.get("description", ""),
+                "engineering_unit": unit.get("symbol", "")
+                if isinstance(unit, dict)
+                else "",
+                "engineering_range": item.get("engineering_range"),
+            }
+        )
+    return variables
+
+
 def load_schema(path: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     raw = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(raw, dict) or not isinstance(raw.get("variables"), list):
         raise ValueError("schema must be a gizmo-opcua-client JSON schema export")
-    variables = raw["variables"]
+    variables = (
+        _contract_variables(raw)
+        if raw.get("schema_version") is not None
+        else raw["variables"]
+    )
     required = {"path", "node_id", "data_type", "writable"}
     for index, variable in enumerate(variables):
         if not isinstance(variable, dict) or not required.issubset(variable):
@@ -511,7 +562,7 @@ def metric(
     }
 
 
-def overview_view() -> dict[str, Any]:
+def overview_view(variable_count: int) -> dict[str, Any]:
     resistance_expression = (
         "if({[default]GIZMo/Measurement/ResistanceRange} = 'OutOfRange', "
         "'HIGH Z', concat(numberFormat({[default]GIZMo/Measurement/ResistanceOhm}, "
@@ -656,7 +707,8 @@ def overview_view() -> dict[str, Any]:
                 "Note",
                 (
                     "The GIZMo is offline, so Bad/Disconnected quality overlays are expected. "
-                    "All 431 canonical variables are configured under [default]GIZMo."
+                    f"All {variable_count} canonical variables are configured under "
+                    "[default]GIZMo."
                 ),
                 size="12px",
                 color="#c3c9cf",
@@ -789,7 +841,7 @@ def install_project(
     write_json(page_config / "resource.json", project_resource(["config.json"]))
     views = project / "com.inductiveautomation.perspective/views/Pages"
     for name, view in (
-        ("Overview", overview_view()),
+        ("Overview", overview_view(len(variables))),
         (
             "TagInventory",
             inventory_view(variables, enable_history=enable_history),
@@ -807,20 +859,24 @@ def generate(
     security_template_path: Path,
     *,
     force: bool,
+    omit_connection: bool = False,
     enable_history: bool = False,
     history_provider: str = HISTORY_PROVIDER,
 ) -> None:
     schema, variables = load_schema(schema_path)
     if enable_history:
         variables = ensure_history_variables(variables)
-    security = load_security_template(security_template_path)
+    security = (
+        None if omit_connection else load_security_template(security_template_path)
+    )
     if output.exists():
         if not force:
             raise FileExistsError(f"output exists; use --force: {output}")
         shutil.rmtree(output)
     output.mkdir(parents=True)
 
-    install_connection(output, endpoint, security)
+    if security is not None:
+        install_connection(output, endpoint, security)
     install_tag_groups(output)
     install_tag_resources(
         output,
@@ -852,11 +908,14 @@ def generate(
             "endpoint": endpoint,
             "namespace_uri": schema.get("namespace_uri", NAMESPACE_URI),
             "schema_sha256": hashlib.sha256(schema_bytes).hexdigest(),
+            "opcua_model_version": schema.get("model_version"),
+            "opcua_contract_sha256": schema.get("contract_sha256"),
             "variable_count": len(variables),
             "opc_type_counts": dict(sorted(type_counts.items())),
             "area_counts": dict(sorted(area_counts.items())),
             "bridge_read_only": True,
-            "gateway_bound_keystore_security": True,
+            "connection_resources_committed": not omit_connection,
+            "gateway_bound_keystore_security": not omit_connection,
             "tag_history_enabled": enable_history,
             "historized_tag_count": len(HISTORY_PATHS) if enable_history else 0,
             "history_provider": history_provider if enable_history else None,
@@ -877,7 +936,7 @@ def main() -> None:
     parser.add_argument(
         "--security-template",
         type=Path,
-        required=True,
+        required=False,
         help=(
             "config.json from an existing working OPC-UA connection on the "
             "target commissioned Gateway; its encrypted key-store secret is "
@@ -885,6 +944,11 @@ def main() -> None:
         ),
     )
     parser.add_argument("--force", action="store_true")
+    parser.add_argument(
+        "--omit-connection",
+        action="store_true",
+        help="generate publication-safe resources without an OPC connection",
+    )
     parser.add_argument(
         "--enable-history",
         action="store_true",
@@ -901,12 +965,15 @@ def main() -> None:
         ),
     )
     args = parser.parse_args()
+    if not args.omit_connection and args.security_template is None:
+        parser.error("--security-template is required unless --omit-connection is used")
     generate(
         args.schema,
         args.output,
         args.endpoint,
-        args.security_template,
+        args.security_template or Path("."),
         force=args.force,
+        omit_connection=args.omit_connection,
         enable_history=args.enable_history,
         history_provider=args.history_provider,
     )

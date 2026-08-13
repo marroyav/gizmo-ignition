@@ -296,6 +296,6 @@
     "tagGroup": "GIZMo Inventory",
     "opcServer": "GIZMo Legacy",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Firmware.ShellName",
-    "documentation": "Kria shell type reported by shell.json."
+    "documentation": "FPGA platform shell type when reported by the runtime image."
   }
 ]

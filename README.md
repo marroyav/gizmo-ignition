@@ -8,9 +8,15 @@ migration tooling for two GIZMo implementations:
   connection.
 
 Both devices use the canonical `urn:fnal:gizmo` namespace. The committed
-project contains 431 tags per device, a Perspective overview for each device,
+project contains 457 tags per device, a Perspective overview for each device,
 a tag inventory, tag groups, history migration tools, and deterministic
 resource-generation inputs.
+
+Model 1.3.1 is pinned by the contract hash recorded in the project manifest.
+The normative machine-readable artifact is
+[`schema/gizmo-opcua-contract.json`](https://github.com/marroyav/GIZMo/blob/main/schema/gizmo-opcua-contract.json)
+in the producer repository; the single-device resources are generated directly
+from that artifact.
 
 The public-review interface and acceptance gates are maintained in
 [`marroyav/gizmo-icd`](https://github.com/marroyav/gizmo-icd); the Kria
@@ -31,8 +37,9 @@ Create the following OPC UA connections on the target Gateway:
 
 The Kria tree enables writes only for `Configuration/ThresholdOhm` and
 `Configuration/AveragesPerCalculation`. The legacy tree enables writes only
-for `Configuration/ThresholdOhm`, with the recovered 0--1023-ohm hardware
-range. All measurement/readback tags remain read-only. The legacy connection
+for `Configuration/ThresholdOhm`. Both platforms use the canonical
+0--1023-ohm threshold range. All measurement/readback tags remain read-only.
+The legacy connection
 must use the target-generated control credential stored in the Gateway's
 protected credential store; its anonymous session remains useful for reads but
 cannot write. Limit write permission to the approved Ignition operator role.

@@ -3,7 +3,9 @@
   "ignition_target": "8.3.8",
   "project": "GIZMo",
   "namespace_uri": "urn:fnal:gizmo",
-  "schema_sha256": "e77c9bc255693728dea76225b06dfe0d6b88a043256666c6c4cec6b9fbf9fc71",
+  "schema_sha256": "e14338e634a2f294829be6c067bafa7900f07177d9ee532dcd1bd191db3e23c5",
+  "opcua_model_version": "1.3.1",
+  "opcua_contract_sha256": "1f10f15a8991a758d7b0c59ef220002336a9615e3378401a6456668e86b51b97",
   "devices": [
     {
       "name": "Kria",
@@ -18,8 +20,8 @@
       "endpoint": "site-configured"
     }
   ],
-  "variable_count_per_device": 431,
-  "total_tag_count": 862,
+  "variable_count_per_device": 457,
+  "total_tag_count": 914,
   "bridge_read_only": false,
   "write_policy": {
     "Kria": [

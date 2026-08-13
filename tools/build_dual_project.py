@@ -315,11 +315,11 @@ def add_configuration_panel(view_path: Path, device: str) -> None:
             name="ThresholdSetpoint",
             title="REMOTE THRESHOLD SETPOINT · Ω",
             tag="ThresholdOhm",
-            minimum=1,
-            maximum=500,
+            minimum=0,
+            maximum=1023,
             help_text=(
                 "Protected entry; press Enter or leave the field to commit. "
-                "Initial operator band: 1–500 Ω."
+                "Canonical range: 0–1023 Ω. Normal configured value: 100 Ω."
             ),
         )
     ]
@@ -394,6 +394,9 @@ def build(source: Path, output: Path, *, force: bool) -> None:
             raise FileExistsError(f"output exists; pass --force: {output}")
         shutil.rmtree(output)
 
+    source_manifest = read_json(source / "manifest.json")
+    variable_count = int(source_manifest["variable_count"])
+
     source_ignition = source / "data/config/resources/core/ignition"
     output_ignition = output / "data/config/resources/core/ignition"
     shutil.copytree(source_ignition / "tag-group", output_ignition / "tag-group")
@@ -437,10 +440,10 @@ def build(source: Path, output: Path, *, force: bool) -> None:
         lambda value: {
             "GIZMo tag inventory": "GIZMo dual-device tag inventory",
             (
-                "431 canonical OPC-UA variables · all imported read-only · "
+                f"{variable_count} canonical OPC-UA variables · all imported read-only · "
                 "history disabled"
             ): (
-                "431 canonical variables per device · approved configuration "
+                f"{variable_count} canonical variables per device · approved configuration "
                 "writes enabled · history disabled"
             ),
         }.get(value, value),
@@ -503,8 +506,6 @@ def build(source: Path, output: Path, *, force: bool) -> None:
         )
     write_json(output / "exports/gizmo-dual-tags.json", [dual_root])
 
-    source_manifest = read_json(source / "manifest.json")
-    variable_count = int(source_manifest["variable_count"])
     write_json(
         output / "manifest.json",
         {
@@ -513,6 +514,10 @@ def build(source: Path, output: Path, *, force: bool) -> None:
             "project": "GIZMo",
             "namespace_uri": source_manifest["namespace_uri"],
             "schema_sha256": source_manifest["schema_sha256"],
+            "opcua_model_version": source_manifest.get("opcua_model_version"),
+            "opcua_contract_sha256": source_manifest.get(
+                "opcua_contract_sha256"
+            ),
             "devices": [
                 {
                     "name": device,

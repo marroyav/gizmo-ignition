@@ -36,9 +36,9 @@
     "tagGroup": "GIZMo Fast",
     "opcServer": "GIZMo Bridge",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Configuration.ThresholdOhm",
-    "documentation": "Writable integer alarm threshold from 0 through 1,000,000 ohm.",
+    "documentation": "Writable integer alarm threshold from 0 through 1023 ohm.",
     "engUnit": "Ohm",
     "engLow": 0.0,
-    "engHigh": 1000000.0
+    "engHigh": 1023.0
   }
 ]

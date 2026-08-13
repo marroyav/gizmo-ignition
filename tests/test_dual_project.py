@@ -91,34 +91,65 @@ class DualProjectTests(unittest.TestCase):
                         writable.add(path)
             self.assertEqual(writable, expected, device)
 
-    def test_legacy_threshold_uses_recovered_hardware_range(self) -> None:
-        path = (
+    def test_both_thresholds_use_the_common_contract_range(self) -> None:
+        base = (
             PROJECT
-            / "data/config/resources/core/ignition/tag-definition/default/GIZMo/Legacy/Configuration/tags.json"
+            / "data/config/resources/core/ignition/tag-definition/default/GIZMo"
         )
-        tags = json.loads(path.read_text())
-        threshold = next(tag for tag in tags if tag["name"] == "ThresholdOhm")
-        self.assertFalse(threshold["readOnly"])
-        self.assertEqual(threshold["engLow"], 0.0)
-        self.assertEqual(threshold["engHigh"], 1023.0)
-        self.assertIn("authenticated remote legacy threshold", threshold["documentation"].lower())
+        for device in ("Kria", "Legacy"):
+            tags = json.loads(
+                (base / device / "Configuration/tags.json").read_text()
+            )
+            threshold = next(
+                tag for tag in tags if tag["name"] == "ThresholdOhm"
+            )
+            self.assertFalse(threshold["readOnly"])
+            self.assertEqual(threshold["engLow"], 0.0)
+            self.assertEqual(threshold["engHigh"], 1023.0)
+        legacy = json.loads(
+            (base / "Legacy/Configuration/tags.json").read_text()
+        )
+        threshold = next(tag for tag in legacy if tag["name"] == "ThresholdOhm")
+        self.assertIn(
+            "authenticated remote legacy threshold",
+            threshold["documentation"].lower(),
+        )
 
     def test_manifest_records_capability_scoped_write_policy(self) -> None:
         manifest = json.loads((PROJECT / "manifest.json").read_text())
         self.assertEqual(manifest["format"], "gizmo-ignition-dual/v2")
+        self.assertEqual(manifest["opcua_model_version"], "1.3.1")
+        self.assertEqual(
+            manifest["opcua_contract_sha256"],
+            "1f10f15a8991a758d7b0c59ef220002336a9615e3378401a6456668e86b51b97",
+        )
+        self.assertEqual(manifest["variable_count_per_device"], 457)
+        self.assertEqual(manifest["total_tag_count"], 914)
         self.assertFalse(manifest["bridge_read_only"])
         self.assertEqual(
             {key: set(value) for key, value in manifest["write_policy"].items()},
             self.expected_writes,
         )
 
+    def test_complete_service_inventory_is_present_for_both_devices(self) -> None:
+        base = (
+            PROJECT
+            / "data/config/resources/core/ignition/tag-definition/default/GIZMo"
+        )
+        for device in ("Kria", "Legacy"):
+            for unit in ("gizmo-dashboard.service", "gizmo-historian.service"):
+                tags = json.loads(
+                    (base / device / "Services/Units" / unit / "tags.json").read_text()
+                )
+                self.assertEqual(len(tags), 13)
+
     def test_overviews_expose_only_the_approved_remote_inputs(self) -> None:
         expected = {
             "Kria": {
-                "Configuration/ThresholdOhm": (1, 500),
+                "Configuration/ThresholdOhm": (0, 1023),
                 "Configuration/AveragesPerCalculation": (1, 1_000_000),
             },
-            "Legacy": {"Configuration/ThresholdOhm": (1, 500)},
+            "Legacy": {"Configuration/ThresholdOhm": (0, 1023)},
         }
         base = (
             PROJECT

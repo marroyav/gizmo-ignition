@@ -49,6 +49,6 @@
     "tagGroup": "GIZMo Fast",
     "opcServer": "GIZMo Legacy",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Reason",
-    "documentation": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+    "documentation": "Alarm reason reported directly by the ZMon measurement engine, or empty when the composite alarm is clear."
   }
 ]
