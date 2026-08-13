@@ -1,0 +1,4410 @@
+{
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "backgroundColor": "#1c1f22",
+        "boxSizing": "border-box",
+        "color": "#f3f4ea",
+        "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+        "height": "100%",
+        "padding": "22px"
+      }
+    },
+    "children": [
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Title"
+        },
+        "position": {
+          "basis": "52px",
+          "grow": 0,
+          "shrink": 1
+        },
+        "props": {
+          "text": "GIZMo dual-device tag inventory",
+          "textStyle": {
+            "color": "#b8c41f",
+            "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+            "fontSize": "28px",
+            "fontWeight": 800
+          }
+        }
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Summary"
+        },
+        "position": {
+          "basis": "42px",
+          "grow": 0,
+          "shrink": 1
+        },
+        "props": {
+          "text": "431 canonical variables per device · two read-only device trees · history disabled",
+          "textStyle": {
+            "color": "#c3c9cf",
+            "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+            "fontSize": "12px",
+            "fontWeight": 600
+          }
+        }
+      },
+      {
+        "type": "ia.display.table",
+        "meta": {
+          "name": "TagInventory"
+        },
+        "position": {
+          "basis": "auto",
+          "grow": 1,
+          "shrink": 1
+        },
+        "props": {
+          "data": [
+            {
+              "path": "Alarm/Active",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the current measurement satisfies an alarm condition."
+            },
+            {
+              "path": "Alarm/LatchTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time recorded when the persistent latch was set."
+            },
+            {
+              "path": "Alarm/Latched",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the persistent GIZMo alarm latch is set."
+            },
+            {
+              "path": "Alarm/Reason",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+            },
+            {
+              "path": "Calibration/ConfiguredThresholdOhm",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Ohm",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Threshold persisted in package-owned state."
+            },
+            {
+              "path": "Calibration/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "Calibration/LastCalibrationTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Newest modification time among the calibration tables."
+            },
+            {
+              "path": "Calibration/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "Calibration/MagnitudeNormalizationPending",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when magnitude normalization has been requested."
+            },
+            {
+              "path": "Calibration/MeasurementsPerCalculation",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Averaging interval persisted in package-owned state."
+            },
+            {
+              "path": "Calibration/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Calibration/State",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Valid only when all expected tables contain numeric rows."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/Format",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Expected CSV column format."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/InputMaximum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Maximum input value."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/InputMinimum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Minimum input value."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/InputUnit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit of the first table column."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/Kind",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Calibration-table kind."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/ModifiedTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Table modification time."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/Path",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Package-owned mutable table path."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/RowCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of numeric input rows."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/Sha256",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "SHA-256 table digest."
+            },
+            {
+              "path": "Calibration/Tables/Capacitance/State",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Valid, Invalid, or Missing."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/Format",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Expected CSV column format."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/InputMaximum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Maximum input value."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/InputMinimum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Minimum input value."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/InputUnit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit of the first table column."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/Kind",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Calibration-table kind."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/ModifiedTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Table modification time."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/Path",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Package-owned mutable table path."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/RowCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of numeric input rows."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/Sha256",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "SHA-256 table digest."
+            },
+            {
+              "path": "Calibration/Tables/CapacitancePhase/State",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Valid, Invalid, or Missing."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/Format",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Expected CSV column format."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/InputMaximum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Maximum input value."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/InputMinimum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Minimum input value."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/InputUnit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit of the first table column."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/Kind",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Calibration-table kind."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/ModifiedTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Table modification time."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/Path",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Package-owned mutable table path."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/RowCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of numeric input rows."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/Sha256",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "SHA-256 table digest."
+            },
+            {
+              "path": "Calibration/Tables/Resistance/State",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Valid, Invalid, or Missing."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/Format",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Expected CSV column format."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/InputMaximum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Maximum input value."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/InputMinimum",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Minimum input value."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/InputUnit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit of the first table column."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/Kind",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Calibration-table kind."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/ModifiedTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Table modification time."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/Path",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Package-owned mutable table path."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/RowCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of numeric input rows."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/Sha256",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "SHA-256 table digest."
+            },
+            {
+              "path": "Calibration/Tables/ResistancePhase/State",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Valid, Invalid, or Missing."
+            },
+            {
+              "path": "Configuration/AveragesPerCalculation",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": true,
+              "bridgeReadOnly": true,
+              "description": "Writable averaging count; accepted values are 1 through 1,000,000."
+            },
+            {
+              "path": "Configuration/LastCommandResult",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Result of the most recent canonical configuration write or method call."
+            },
+            {
+              "path": "Configuration/ThresholdOhm",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "Ohm",
+              "group": "GIZMo Fast",
+              "sourceWritable": true,
+              "bridgeReadOnly": true,
+              "description": "Writable integer alarm threshold from 0 through 1,000,000 ohm."
+            },
+            {
+              "path": "Firmware/BoardModel",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Device-tree board model."
+            },
+            {
+              "path": "Firmware/BoardSerialNumber",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Device-tree serial number."
+            },
+            {
+              "path": "Firmware/CarrierManufacturer",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Carrier manufacturer read through xmutil boardid."
+            },
+            {
+              "path": "Firmware/CarrierPartNumber",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Carrier part number read through xmutil boardid."
+            },
+            {
+              "path": "Firmware/CarrierProductName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Carrier product name read through xmutil boardid."
+            },
+            {
+              "path": "Firmware/CarrierRevision",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Carrier revision read through xmutil boardid."
+            },
+            {
+              "path": "Firmware/CarrierSerialNumber",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Carrier serial number read through xmutil boardid."
+            },
+            {
+              "path": "Firmware/DeviceTreeOverlay",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Installed device-tree overlay path."
+            },
+            {
+              "path": "Firmware/DeviceTreeOverlaySha256",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "SHA-256 digest of the device-tree overlay."
+            },
+            {
+              "path": "Firmware/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "Firmware/ExpectedDevices",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Device nodes expected after the overlay loads."
+            },
+            {
+              "path": "Firmware/FactoryMacAddresses",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Factory MAC addresses read from carrier FRU data."
+            },
+            {
+              "path": "Firmware/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "Firmware/MissingDevices",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Expected overlay devices that are currently absent."
+            },
+            {
+              "path": "Firmware/OverlayBitstreamSha256",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "SHA-256 digest of the installed FPGA bitstream."
+            },
+            {
+              "path": "Firmware/OverlayInstalled",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the overlay files exist under /lib/firmware/Xilinx."
+            },
+            {
+              "path": "Firmware/OverlayLoaded",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when xmutil confirms the configured application is loaded."
+            },
+            {
+              "path": "Firmware/OverlayName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Configured xmutil FPGA application name."
+            },
+            {
+              "path": "Firmware/OverlayPath",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Installed FPGA overlay directory."
+            },
+            {
+              "path": "Firmware/OverlayState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Running, Degraded, Missing, or load state unconfirmed."
+            },
+            {
+              "path": "Firmware/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Firmware/RuntimeVersion",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Installed gizmo-runtime package version."
+            },
+            {
+              "path": "Firmware/ShellName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Kria shell type reported by shell.json."
+            },
+            {
+              "path": "Health/Calibration",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Calibration subtree."
+            },
+            {
+              "path": "Health/Firmware",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Firmware subtree."
+            },
+            {
+              "path": "Health/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time aggregate health was last evaluated."
+            },
+            {
+              "path": "Health/Measurement",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Measurement subtree."
+            },
+            {
+              "path": "Health/Network",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Network subtree."
+            },
+            {
+              "path": "Health/OperatingSystem",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the OperatingSystem subtree."
+            },
+            {
+              "path": "Health/Overall",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "OK, Degraded, Failed, or Starting."
+            },
+            {
+              "path": "Health/SDR",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the SDR subtree."
+            },
+            {
+              "path": "Health/Services",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Services subtree."
+            },
+            {
+              "path": "Health/Storage",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Storage subtree."
+            },
+            {
+              "path": "Health/Thermal",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Thermal subtree."
+            },
+            {
+              "path": "Health/Time",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Aggregate quality of the Time subtree."
+            },
+            {
+              "path": "Identity/BootId",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux boot identifier; changes on every boot."
+            },
+            {
+              "path": "Identity/DeviceId",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Privacy-preserving stable identifier derived from machine-id."
+            },
+            {
+              "path": "Identity/Hostname",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current Linux host name."
+            },
+            {
+              "path": "Identity/Manufacturer",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Organization responsible for this runtime package."
+            },
+            {
+              "path": "Identity/ModelNamespaceUri",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Canonical namespace URI; clients resolve its runtime index."
+            },
+            {
+              "path": "Identity/ModelPublicationDate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Publication date of this OPC UA information model."
+            },
+            {
+              "path": "Identity/ModelVersion",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Semantic version of this OPC UA information model."
+            },
+            {
+              "path": "Identity/ProductName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Ground Impedance Monitor using the AMD Kria platform."
+            },
+            {
+              "path": "Identity/RuntimeVersion",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Installed gizmo-runtime package version."
+            },
+            {
+              "path": "Identity/ServerStartTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time this OPC UA server process started."
+            },
+            {
+              "path": "Measurement/AveragesPerCalculation",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of measurements averaged in each calculation."
+            },
+            {
+              "path": "Measurement/CapacitanceNanofarad",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "nF",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Equivalent capacitive component estimated by the calibration."
+            },
+            {
+              "path": "Measurement/CapacitanceRange",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Interpretation of CapacitanceNanofarad."
+            },
+            {
+              "path": "Measurement/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad measurement quality."
+            },
+            {
+              "path": "Measurement/InPhaseCount",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Lock-in in-phase component in ADC counts."
+            },
+            {
+              "path": "Measurement/LegacyRecord",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Original comma-delimited ZMon record retained for audit only."
+            },
+            {
+              "path": "Measurement/MagnitudeCount",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Lock-in magnitude in uncalibrated ADC counts."
+            },
+            {
+              "path": "Measurement/PhaseAtan2Degrees",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "deg",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Phase calculated with atan2."
+            },
+            {
+              "path": "Measurement/PhaseAtanDegrees",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "deg",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Phase calculated with atan."
+            },
+            {
+              "path": "Measurement/PhaseInterpolatedDegrees",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "deg",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Phase used by the impedance calibration interpolation."
+            },
+            {
+              "path": "Measurement/QuadratureCount",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Lock-in quadrature component in ADC counts."
+            },
+            {
+              "path": "Measurement/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; use each DataValue StatusCode programmatically."
+            },
+            {
+              "path": "Measurement/ResistanceOhm",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Ohm",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with BadOutOfRange and the panel displays HIGH Z."
+            },
+            {
+              "path": "Measurement/ResistanceRange",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Interpretation of ResistanceOhm: InRange, OutOfRange, or Invalid."
+            },
+            {
+              "path": "Measurement/SampleTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the server sampled this measurement from ZMon."
+            },
+            {
+              "path": "Measurement/Sequence",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Monotonic sequence assigned to each observed ZMon record."
+            },
+            {
+              "path": "Measurement/StimulusFrequencyHertz",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Hz",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Nominal sine-wave stimulus frequency."
+            },
+            {
+              "path": "Measurement/ThresholdOhm",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Ohm",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Alarm threshold active in the measurement engine."
+            },
+            {
+              "path": "Network/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "Network/DnsServers",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Configured DNS resolver addresses."
+            },
+            {
+              "path": "Network/DomainName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Configured DNS search/domain name."
+            },
+            {
+              "path": "Network/ExpectedInterfaces",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux interface names expected on this GIZMo deployment."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Addresses",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Assigned IP addresses with prefix, family, scope, and flags."
+            },
+            {
+              "path": "Network/Interfaces/eth0/AdministrativeUp",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the interface UP flag is set."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Carrier",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Physical link carrier state."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Collisions",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Link collisions."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Driver",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Bound Linux network driver."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Duplex",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Negotiated duplex mode."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Index",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux interface index."
+            },
+            {
+              "path": "Network/Interfaces/eth0/MacAddress",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current link-layer address."
+            },
+            {
+              "path": "Network/Interfaces/eth0/MacAddressSource",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Observed MAC provenance; FRU EEPROM is only reported when verified against xmutil boardid."
+            },
+            {
+              "path": "Network/Interfaces/eth0/MacAssignmentCode",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux addr_assign_type: 0 permanent, 1 random, 2 stolen, 3 software set."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Mtu",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Interface MTU."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Name",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux interface name."
+            },
+            {
+              "path": "Network/Interfaces/eth0/OperationalState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux operational state."
+            },
+            {
+              "path": "Network/Interfaces/eth0/PermanentMacAddress",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Permanent address reported by the driver when available."
+            },
+            {
+              "path": "Network/Interfaces/eth0/Present",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the interface exists in the current inventory."
+            },
+            {
+              "path": "Network/Interfaces/eth0/RxBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Received bytes."
+            },
+            {
+              "path": "Network/Interfaces/eth0/RxDropped",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Dropped receive packets."
+            },
+            {
+              "path": "Network/Interfaces/eth0/RxErrors",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Receive errors."
+            },
+            {
+              "path": "Network/Interfaces/eth0/RxPackets",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Received packets."
+            },
+            {
+              "path": "Network/Interfaces/eth0/SpeedMegabitPerSecond",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "Mbit/s",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Negotiated link speed."
+            },
+            {
+              "path": "Network/Interfaces/eth0/TxBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmitted bytes."
+            },
+            {
+              "path": "Network/Interfaces/eth0/TxDropped",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Dropped transmit packets."
+            },
+            {
+              "path": "Network/Interfaces/eth0/TxErrors",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmit errors."
+            },
+            {
+              "path": "Network/Interfaces/eth0/TxPackets",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmitted packets."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Addresses",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Assigned IP addresses with prefix, family, scope, and flags."
+            },
+            {
+              "path": "Network/Interfaces/eth1/AdministrativeUp",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the interface UP flag is set."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Carrier",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Physical link carrier state."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Collisions",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Link collisions."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Driver",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Bound Linux network driver."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Duplex",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Negotiated duplex mode."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Index",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux interface index."
+            },
+            {
+              "path": "Network/Interfaces/eth1/MacAddress",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current link-layer address."
+            },
+            {
+              "path": "Network/Interfaces/eth1/MacAddressSource",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Observed MAC provenance; FRU EEPROM is only reported when verified against xmutil boardid."
+            },
+            {
+              "path": "Network/Interfaces/eth1/MacAssignmentCode",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux addr_assign_type: 0 permanent, 1 random, 2 stolen, 3 software set."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Mtu",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Interface MTU."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Name",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux interface name."
+            },
+            {
+              "path": "Network/Interfaces/eth1/OperationalState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux operational state."
+            },
+            {
+              "path": "Network/Interfaces/eth1/PermanentMacAddress",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Permanent address reported by the driver when available."
+            },
+            {
+              "path": "Network/Interfaces/eth1/Present",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the interface exists in the current inventory."
+            },
+            {
+              "path": "Network/Interfaces/eth1/RxBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Received bytes."
+            },
+            {
+              "path": "Network/Interfaces/eth1/RxDropped",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Dropped receive packets."
+            },
+            {
+              "path": "Network/Interfaces/eth1/RxErrors",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Receive errors."
+            },
+            {
+              "path": "Network/Interfaces/eth1/RxPackets",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Received packets."
+            },
+            {
+              "path": "Network/Interfaces/eth1/SpeedMegabitPerSecond",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "Mbit/s",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Negotiated link speed."
+            },
+            {
+              "path": "Network/Interfaces/eth1/TxBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmitted bytes."
+            },
+            {
+              "path": "Network/Interfaces/eth1/TxDropped",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Dropped transmit packets."
+            },
+            {
+              "path": "Network/Interfaces/eth1/TxErrors",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmit errors."
+            },
+            {
+              "path": "Network/Interfaces/eth1/TxPackets",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmitted packets."
+            },
+            {
+              "path": "Network/Interfaces/lo/Addresses",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Assigned IP addresses with prefix, family, scope, and flags."
+            },
+            {
+              "path": "Network/Interfaces/lo/AdministrativeUp",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the interface UP flag is set."
+            },
+            {
+              "path": "Network/Interfaces/lo/Carrier",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Physical link carrier state."
+            },
+            {
+              "path": "Network/Interfaces/lo/Collisions",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Link collisions."
+            },
+            {
+              "path": "Network/Interfaces/lo/Driver",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Bound Linux network driver."
+            },
+            {
+              "path": "Network/Interfaces/lo/Duplex",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Negotiated duplex mode."
+            },
+            {
+              "path": "Network/Interfaces/lo/Index",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux interface index."
+            },
+            {
+              "path": "Network/Interfaces/lo/MacAddress",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current link-layer address."
+            },
+            {
+              "path": "Network/Interfaces/lo/MacAddressSource",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Observed MAC provenance; FRU EEPROM is only reported when verified against xmutil boardid."
+            },
+            {
+              "path": "Network/Interfaces/lo/MacAssignmentCode",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux addr_assign_type: 0 permanent, 1 random, 2 stolen, 3 software set."
+            },
+            {
+              "path": "Network/Interfaces/lo/Mtu",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Interface MTU."
+            },
+            {
+              "path": "Network/Interfaces/lo/Name",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux interface name."
+            },
+            {
+              "path": "Network/Interfaces/lo/OperationalState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux operational state."
+            },
+            {
+              "path": "Network/Interfaces/lo/PermanentMacAddress",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Permanent address reported by the driver when available."
+            },
+            {
+              "path": "Network/Interfaces/lo/Present",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when the interface exists in the current inventory."
+            },
+            {
+              "path": "Network/Interfaces/lo/RxBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Received bytes."
+            },
+            {
+              "path": "Network/Interfaces/lo/RxDropped",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Dropped receive packets."
+            },
+            {
+              "path": "Network/Interfaces/lo/RxErrors",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Receive errors."
+            },
+            {
+              "path": "Network/Interfaces/lo/RxPackets",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Received packets."
+            },
+            {
+              "path": "Network/Interfaces/lo/SpeedMegabitPerSecond",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "Mbit/s",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Negotiated link speed."
+            },
+            {
+              "path": "Network/Interfaces/lo/TxBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmitted bytes."
+            },
+            {
+              "path": "Network/Interfaces/lo/TxDropped",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Dropped transmit packets."
+            },
+            {
+              "path": "Network/Interfaces/lo/TxErrors",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmit errors."
+            },
+            {
+              "path": "Network/Interfaces/lo/TxPackets",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Transmitted packets."
+            },
+            {
+              "path": "Network/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "Network/MissingInterfaces",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Expected Linux interfaces that are currently absent."
+            },
+            {
+              "path": "Network/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Network/Routes",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Kernel routing-table entries in normalized text form."
+            },
+            {
+              "path": "OperatingSystem/Architecture",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Machine architecture."
+            },
+            {
+              "path": "OperatingSystem/CpuUtilizationPercent",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "%",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "CPU utilization between consecutive samples."
+            },
+            {
+              "path": "OperatingSystem/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "OperatingSystem/EntropyAvailableBits",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Kernel random-pool entropy estimate."
+            },
+            {
+              "path": "OperatingSystem/Hostname",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current Linux hostname."
+            },
+            {
+              "path": "OperatingSystem/KernelRelease",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux kernel release."
+            },
+            {
+              "path": "OperatingSystem/KernelVersion",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux kernel build information."
+            },
+            {
+              "path": "OperatingSystem/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "OperatingSystem/Load15Minute",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Fifteen-minute Linux load average."
+            },
+            {
+              "path": "OperatingSystem/Load1Minute",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "One-minute Linux load average."
+            },
+            {
+              "path": "OperatingSystem/Load5Minute",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Five-minute Linux load average."
+            },
+            {
+              "path": "OperatingSystem/LogicalCpuCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of logical CPUs visible to the runtime."
+            },
+            {
+              "path": "OperatingSystem/MemoryAvailableBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Memory currently available without swapping."
+            },
+            {
+              "path": "OperatingSystem/MemoryTotalBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Total physical memory."
+            },
+            {
+              "path": "OperatingSystem/MemoryUsedBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Total memory minus available memory."
+            },
+            {
+              "path": "OperatingSystem/OpenFileHandles",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Allocated Linux file handles."
+            },
+            {
+              "path": "OperatingSystem/PrettyName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Operating-system distribution name."
+            },
+            {
+              "path": "OperatingSystem/ProcessCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of Linux processes."
+            },
+            {
+              "path": "OperatingSystem/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "OperatingSystem/RunningProcessCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Number of runnable Linux processes."
+            },
+            {
+              "path": "OperatingSystem/SwapFreeBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Currently free swap capacity."
+            },
+            {
+              "path": "OperatingSystem/SwapTotalBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Configured swap capacity."
+            },
+            {
+              "path": "OperatingSystem/VersionId",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Operating-system distribution version."
+            },
+            {
+              "path": "SDR/Available",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when a complete frame was received from the SDR service."
+            },
+            {
+              "path": "SDR/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "SDR/Endpoint",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Internal SDR stream endpoint."
+            },
+            {
+              "path": "SDR/FrameSequence",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Monotonic sequence assigned to each complete SDR frame."
+            },
+            {
+              "path": "SDR/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "SDR/LatestFrame",
+              "opcType": "Int32",
+              "ignitionType": "Int4Array",
+              "unit": "",
+              "group": "GIZMo Waveform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Complete signed Int32 SDR frame; subscriptions should use a suitable interval."
+            },
+            {
+              "path": "SDR/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "SDR/SampleFormat",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Binary representation produced by the SDR service."
+            },
+            {
+              "path": "SDR/SampleTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the server received the complete SDR frame."
+            },
+            {
+              "path": "SDR/SamplesPerFrame",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Configured sample count in each complete frame."
+            },
+            {
+              "path": "Services/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "Services/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "Services/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-control.socket/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-display.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-hardware.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-network.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-opcua.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-sdr.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-temperature.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmon.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-zmq.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo.target/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo.target/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo.target/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo.target/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo.target/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo.target/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo.target/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo.target/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo.target/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo.target/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo.target/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo.target/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo.target/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Storage/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "Storage/Filesystems/Root/AvailableBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Capacity available to this service."
+            },
+            {
+              "path": "Storage/Filesystems/Root/MountPoint",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Mount point."
+            },
+            {
+              "path": "Storage/Filesystems/Root/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem quality."
+            },
+            {
+              "path": "Storage/Filesystems/Root/ReadOnly",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when mounted read-only."
+            },
+            {
+              "path": "Storage/Filesystems/Root/Source",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem source."
+            },
+            {
+              "path": "Storage/Filesystems/Root/TotalBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Total capacity."
+            },
+            {
+              "path": "Storage/Filesystems/Root/Type",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem type."
+            },
+            {
+              "path": "Storage/Filesystems/Root/UsedBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Used capacity."
+            },
+            {
+              "path": "Storage/Filesystems/Root/UsedPercent",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "%",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Percentage of total capacity in use."
+            },
+            {
+              "path": "Storage/Filesystems/Run/AvailableBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Capacity available to this service."
+            },
+            {
+              "path": "Storage/Filesystems/Run/MountPoint",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Mount point."
+            },
+            {
+              "path": "Storage/Filesystems/Run/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem quality."
+            },
+            {
+              "path": "Storage/Filesystems/Run/ReadOnly",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when mounted read-only."
+            },
+            {
+              "path": "Storage/Filesystems/Run/Source",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem source."
+            },
+            {
+              "path": "Storage/Filesystems/Run/TotalBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Total capacity."
+            },
+            {
+              "path": "Storage/Filesystems/Run/Type",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem type."
+            },
+            {
+              "path": "Storage/Filesystems/Run/UsedBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Used capacity."
+            },
+            {
+              "path": "Storage/Filesystems/Run/UsedPercent",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "%",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Percentage of total capacity in use."
+            },
+            {
+              "path": "Storage/Filesystems/State/AvailableBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Capacity available to this service."
+            },
+            {
+              "path": "Storage/Filesystems/State/MountPoint",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Mount point."
+            },
+            {
+              "path": "Storage/Filesystems/State/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem quality."
+            },
+            {
+              "path": "Storage/Filesystems/State/ReadOnly",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when mounted read-only."
+            },
+            {
+              "path": "Storage/Filesystems/State/Source",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem source."
+            },
+            {
+              "path": "Storage/Filesystems/State/TotalBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Total capacity."
+            },
+            {
+              "path": "Storage/Filesystems/State/Type",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Filesystem type."
+            },
+            {
+              "path": "Storage/Filesystems/State/UsedBytes",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "byte",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Used capacity."
+            },
+            {
+              "path": "Storage/Filesystems/State/UsedPercent",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "%",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Percentage of total capacity in use."
+            },
+            {
+              "path": "Storage/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "Storage/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Thermal/ChassisTemperatureCelsius",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Cel",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Chassis temperature."
+            },
+            {
+              "path": "Thermal/Cpu1TemperatureCelsius",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Cel",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "CPU1 temperature."
+            },
+            {
+              "path": "Thermal/Cpu2TemperatureCelsius",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Cel",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "CPU2 temperature."
+            },
+            {
+              "path": "Thermal/Cpu3TemperatureCelsius",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "Cel",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "CPU3 temperature."
+            },
+            {
+              "path": "Thermal/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "Thermal/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "Thermal/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Time/AvailableClocksources",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Kernel clocksources available for selection."
+            },
+            {
+              "path": "Time/BootTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Estimated Linux boot time."
+            },
+            {
+              "path": "Time/CurrentClocksource",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Kernel clocksource currently selected."
+            },
+            {
+              "path": "Time/CurrentLocal",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "ISO-8601 local time including UTC offset."
+            },
+            {
+              "path": "Time/CurrentUtc",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Observed wall-clock time encoded in UTC."
+            },
+            {
+              "path": "Time/Diagnostic",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Diagnostic explaining degraded or bad quality."
+            },
+            {
+              "path": "Time/LastUpdate",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source timestamp of the latest completed update."
+            },
+            {
+              "path": "Time/MonotonicNanoseconds",
+              "opcType": "UInt64",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Python monotonic clock reading."
+            },
+            {
+              "path": "Time/NtpService",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Source used to determine NTP status."
+            },
+            {
+              "path": "Time/NtpServiceActive",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when network time service is enabled."
+            },
+            {
+              "path": "Time/NtpSynchronized",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when timedatectl confirms NTP synchronization."
+            },
+            {
+              "path": "Time/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Time/RtcDevice",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux RTC sysfs device path."
+            },
+            {
+              "path": "Time/RtcPresent",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when Linux exposes an RTC device."
+            },
+            {
+              "path": "Time/TimezoneName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Configured IANA timezone name."
+            },
+            {
+              "path": "Time/UptimeSeconds",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "s",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Linux uptime."
+            },
+            {
+              "path": "Time/UtcOffsetSeconds",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "s",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Local UTC offset at CurrentUtc."
+            }
+          ],
+          "filter": {
+            "enabled": true,
+            "visible": true
+          },
+          "pager": {
+            "enabled": true,
+            "pageSize": 25
+          },
+          "selection": {
+            "enabled": true,
+            "mode": "single"
+          },
+          "style": {
+            "backgroundColor": "#3f464d",
+            "border": "none",
+            "color": "#f3f4ea",
+            "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace"
+          }
+        }
+      }
+    ]
+  },
+  "props": {
+    "defaultSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

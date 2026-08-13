@@ -1,0 +1,7 @@
+{
+  "title": "GIZMo Dual Monitor",
+  "description": "Read-only Perspective project for Kria and legacy GIZMo OPC-UA adapters.",
+  "enabled": true,
+  "inheritable": false,
+  "parent": ""
+}

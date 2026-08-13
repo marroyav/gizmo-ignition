@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Active",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Boolean",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Legacy",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Active",
+    "documentation": "Legacy authoritative alarm state. No Ignition alarm is enabled until commissioning validates the adapter readback."
+  },
+  {
+    "name": "LatchTime",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "DateTime",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Legacy",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.LatchTime",
+    "documentation": "Time recorded when the persistent latch was set."
+  },
+  {
+    "name": "Latched",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Boolean",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Legacy",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Latched",
+    "documentation": "True when the persistent GIZMo alarm latch is set."
+  },
+  {
+    "name": "Reason",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Legacy",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Reason",
+    "documentation": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+  }
+]

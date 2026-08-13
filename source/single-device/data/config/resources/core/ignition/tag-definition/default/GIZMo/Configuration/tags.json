@@ -1,0 +1,44 @@
+[
+  {
+    "name": "AveragesPerCalculation",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Int8",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Configuration.AveragesPerCalculation",
+    "documentation": "Writable averaging count; accepted values are 1 through 1,000,000."
+  },
+  {
+    "name": "LastCommandResult",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Configuration.LastCommandResult",
+    "documentation": "Result of the most recent canonical configuration write or method call."
+  },
+  {
+    "name": "ThresholdOhm",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Int8",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Configuration.ThresholdOhm",
+    "documentation": "Writable integer alarm threshold from 0 through 1,000,000 ohm.",
+    "engUnit": "Ohm",
+    "engLow": 0.0,
+    "engHigh": 1000000.0
+  }
+]

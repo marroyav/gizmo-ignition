@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.venv/
+build/
+dist/
+
+# Site-bound Ignition resources and exports can contain endpoints or secrets.
+**/opc-connection/
+**/database-connection/
+**/security-policy/
+**/user-source/
+*.gwbk
+
+# Historian sources and generated migration batches never belong in Git.
+*.sqlite
+*.sqlite3
+*.db
+history-import/
+*.ndjson
+*.ndjson.gz

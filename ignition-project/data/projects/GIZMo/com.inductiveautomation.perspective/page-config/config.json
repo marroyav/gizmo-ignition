@@ -1,0 +1,21 @@
+{
+  "pages": {
+    "/": {
+      "viewPath": "Pages/KriaOverview",
+      "title": "GIZMo Kria"
+    },
+    "/kria": {
+      "viewPath": "Pages/KriaOverview",
+      "title": "GIZMo Kria"
+    },
+    "/legacy": {
+      "viewPath": "Pages/LegacyOverview",
+      "title": "GIZMo Legacy"
+    },
+    "/tags": {
+      "viewPath": "Pages/TagInventory",
+      "title": "GIZMo Tags"
+    }
+  },
+  "sharedDocks": {}
+}

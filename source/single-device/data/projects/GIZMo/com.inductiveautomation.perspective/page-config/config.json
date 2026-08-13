@@ -1,0 +1,13 @@
+{
+  "pages": {
+    "/": {
+      "viewPath": "Pages/Overview",
+      "title": "GIZMo Monitor"
+    },
+    "/tags": {
+      "viewPath": "Pages/TagInventory",
+      "title": "GIZMo Tags"
+    }
+  },
+  "sharedDocks": {}
+}

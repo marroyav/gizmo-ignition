@@ -1,0 +1,7 @@
+{
+  "title": "GIZMo Monitor",
+  "description": "Read-only draft Perspective project for the canonical GIZMo OPC-UA model.",
+  "enabled": true,
+  "inheritable": false,
+  "parent": ""
+}

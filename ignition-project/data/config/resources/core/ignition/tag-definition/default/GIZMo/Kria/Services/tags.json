@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Diagnostic",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Platform",
+    "opcServer": "GIZMo Kria",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Diagnostic",
+    "documentation": "Diagnostic explaining degraded or bad quality."
+  },
+  {
+    "name": "LastUpdate",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "DateTime",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Platform",
+    "opcServer": "GIZMo Kria",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.LastUpdate",
+    "documentation": "Source timestamp of the latest completed update."
+  },
+  {
+    "name": "Quality",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Platform",
+    "opcServer": "GIZMo Kria",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Quality",
+    "documentation": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+  }
+]

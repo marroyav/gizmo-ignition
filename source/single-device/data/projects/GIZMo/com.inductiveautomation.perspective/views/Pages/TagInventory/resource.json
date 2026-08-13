@@ -1,0 +1,15 @@
+{
+  "scope": "A",
+  "version": 1,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "view.json"
+  ],
+  "attributes": {
+    "lastModification": {
+      "actor": "gizmo-ignition-generator",
+      "timestamp": "2026-08-06T13:20:58Z"
+    }
+  }
+}

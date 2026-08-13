@@ -1,0 +1,1061 @@
+{
+  "root": {
+    "type": "ia.container.flex",
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "backgroundColor": "#1c1f22",
+        "boxSizing": "border-box",
+        "color": "#f3f4ea",
+        "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+        "minHeight": "100%",
+        "padding": "22px"
+      }
+    },
+    "children": [
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "AlarmRail"
+        },
+        "position": {
+          "basis": "8px",
+          "grow": 0,
+          "shrink": 0
+        },
+        "props": {
+          "style": {
+            "backgroundColor": "#b8c41f",
+            "borderRadius": "5px",
+            "marginBottom": "18px"
+          }
+        },
+        "propConfig": {
+          "props.style.backgroundColor": {
+            "binding": {
+              "type": "tag",
+              "config": {
+                "mode": "direct",
+                "tagPath": "[default]GIZMo/Kria/Alarm/Active",
+                "fallbackDelay": 2.5,
+                "publishInitial": false
+              },
+              "transforms": [
+                {
+                  "type": "expression",
+                  "expression": "if({value}, '#ff6a2a', '#b8c41f')"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Heading"
+        },
+        "position": {
+          "basis": "84px",
+          "grow": 0,
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "alignItems": "center"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "Title"
+            },
+            "position": {
+              "basis": "auto",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "text": "GIZMo Kria",
+              "textStyle": {
+                "color": "#b8c41f",
+                "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                "fontSize": "32px",
+                "fontWeight": 800
+              }
+            }
+          },
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "Environment"
+            },
+            "position": {
+              "basis": "280px",
+              "grow": 0,
+              "shrink": 1
+            },
+            "props": {
+              "text": "READ ONLY · IGNITION BRIDGE",
+              "textStyle": {
+                "color": "#c3c9cf",
+                "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                "fontSize": "12px",
+                "fontWeight": 700
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Primary"
+        },
+        "position": {
+          "basis": "205px",
+          "grow": 0,
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "wrap": "wrap"
+        },
+        "children": [
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Resistance"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "185px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ResistanceTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "EQUIVALENT IMPEDANCE",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ResistanceValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "46px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "expr",
+                      "config": {
+                        "expression": "if({[default]GIZMo/Kria/Measurement/ResistanceRange} = 'OutOfRange', 'HIGH Z', concat(numberFormat({[default]GIZMo/Kria/Measurement/ResistanceOhm}, '0.0'), ' Ω'))"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Alarm"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "185px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "AlarmTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "AUTHORITATIVE ALARM",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "AlarmValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "46px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Alarm/Active",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      },
+                      "transforms": [
+                        {
+                          "type": "expression",
+                          "expression": "if({value}, 'ALARM', 'NORMAL')"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Reason"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "185px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ReasonTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "ALARM REASON",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ReasonValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "46px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Alarm/Reason",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "Measurements"
+        },
+        "position": {
+          "basis": "150px",
+          "grow": 0,
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "wrap": "wrap"
+        },
+        "children": [
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "ResistanceDisplay"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ResistanceDisplayTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "RESISTANCE",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ResistanceDisplayValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Measurement/ResistanceOhm",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      },
+                      "transforms": [
+                        {
+                          "type": "expression",
+                          "expression": "concat(numberFormat({value}, '0.0'), ' Ω')"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Threshold"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ThresholdTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "THRESHOLD",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "ThresholdValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Measurement/ThresholdOhm",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      },
+                      "transforms": [
+                        {
+                          "type": "expression",
+                          "expression": "concat(numberFormat({value}, '0'), ' Ω')"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Capacitance"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "CapacitanceTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "CAPACITANCE",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "CapacitanceValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Measurement/CapacitanceNanofarad",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      },
+                      "transforms": [
+                        {
+                          "type": "expression",
+                          "expression": "concat(numberFormat({value}, '0.00'), ' nF')"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Phase"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "PhaseTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "PHASE",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "PhaseValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Measurement/PhaseInterpolatedDegrees",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      },
+                      "transforms": [
+                        {
+                          "type": "expression",
+                          "expression": "concat(numberFormat({value}, '0.00'), '°')"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "System"
+        },
+        "position": {
+          "basis": "150px",
+          "grow": 0,
+          "shrink": 0
+        },
+        "props": {
+          "direction": "row",
+          "wrap": "wrap"
+        },
+        "children": [
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Health"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "HealthTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "OVERALL HEALTH",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "HealthValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Health/Overall",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "LocalTime"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "LocalTimeTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "GIZMO LOCAL TIME",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "LocalTimeValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Time/CurrentLocal",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "LatchTime"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "LatchTimeTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "ALARM LATCH TIME",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "LatchTimeValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Alarm/LatchTime",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "Temperature"
+            },
+            "position": {
+              "basis": "250px",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "backgroundColor": "#3f464d",
+                "borderRadius": "8px",
+                "margin": "6px",
+                "minHeight": "126px",
+                "padding": "18px"
+              }
+            },
+            "children": [
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "TemperatureTitle"
+                },
+                "position": {
+                  "basis": "26px",
+                  "grow": 0,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "CHASSIS TEMPERATURE",
+                  "textStyle": {
+                    "color": "#c3c9cf",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "11px",
+                    "fontWeight": 700
+                  }
+                }
+              },
+              {
+                "type": "ia.display.label",
+                "meta": {
+                  "name": "TemperatureValue"
+                },
+                "position": {
+                  "basis": "auto",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "text": "—",
+                  "textStyle": {
+                    "color": "#f3f4ea",
+                    "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                    "fontSize": "23px",
+                    "fontWeight": 700
+                  }
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "type": "tag",
+                      "config": {
+                        "mode": "direct",
+                        "tagPath": "[default]GIZMo/Kria/Thermal/ChassisTemperatureCelsius",
+                        "fallbackDelay": 2.5,
+                        "publishInitial": false
+                      },
+                      "transforms": [
+                        {
+                          "type": "expression",
+                          "expression": "concat(numberFormat({value}, '0.0'), ' °C')"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ia.display.label",
+        "meta": {
+          "name": "Note"
+        },
+        "position": {
+          "basis": "54px",
+          "grow": 0,
+          "shrink": 1
+        },
+        "props": {
+          "text": "The GIZMo is offline, so Bad/Disconnected quality overlays are expected. All 431 canonical variables are configured under [default]GIZMo.",
+          "textStyle": {
+            "color": "#c3c9cf",
+            "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+            "fontSize": "12px",
+            "fontWeight": 500
+          }
+        }
+      }
+    ]
+  },
+  "props": {
+    "defaultSize": {
+      "width": 1440,
+      "height": 900
+    }
+  }
+}

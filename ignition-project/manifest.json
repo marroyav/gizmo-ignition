@@ -1,0 +1,27 @@
+{
+  "format": "gizmo-ignition-dual/v1",
+  "ignition_target": "8.3.8",
+  "project": "GIZMo",
+  "namespace_uri": "urn:fnal:gizmo",
+  "schema_sha256": "e77c9bc255693728dea76225b06dfe0d6b88a043256666c6c4cec6b9fbf9fc71",
+  "devices": [
+    {
+      "name": "Kria",
+      "connection": "GIZMo Kria",
+      "tag_root": "[default]GIZMo/Kria",
+      "endpoint": "site-configured"
+    },
+    {
+      "name": "Legacy",
+      "connection": "GIZMo Legacy",
+      "tag_root": "[default]GIZMo/Legacy",
+      "endpoint": "site-configured"
+    }
+  ],
+  "variable_count_per_device": 431,
+  "total_tag_count": 862,
+  "bridge_read_only": true,
+  "tag_history_enabled": false,
+  "connection_resources_committed": false,
+  "database_connections_committed": false
+}

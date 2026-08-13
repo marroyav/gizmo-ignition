@@ -1,0 +1,64 @@
+[
+  {
+    "name": "Active",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Boolean",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Kria",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Active",
+    "documentation": "True when the current measurement satisfies an alarm condition.",
+    "alarms": [
+      {
+        "name": "Ground Fault",
+        "mode": "WhenTrue",
+        "priority": "Critical",
+        "ackMode": "Manual",
+        "displayPath": "GIZMo Kria Ground Fault",
+        "notes": "Authoritative composite alarm emitted by the GIZMo ZMon engine; Ignition does not recompute resistance or phase rules."
+      }
+    ]
+  },
+  {
+    "name": "LatchTime",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "DateTime",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Kria",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.LatchTime",
+    "documentation": "Time recorded when the persistent latch was set."
+  },
+  {
+    "name": "Latched",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Boolean",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Kria",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Latched",
+    "documentation": "True when the persistent GIZMo alarm latch is set."
+  },
+  {
+    "name": "Reason",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Kria",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Reason",
+    "documentation": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+  }
+]
