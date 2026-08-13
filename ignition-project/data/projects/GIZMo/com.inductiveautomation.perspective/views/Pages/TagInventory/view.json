@@ -47,7 +47,7 @@
           "shrink": 1
         },
         "props": {
-          "text": "431 canonical variables per device · two read-only device trees · history disabled",
+          "text": "431 canonical variables per device · approved configuration writes enabled · history disabled",
           "textStyle": {
             "color": "#c3c9cf",
             "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",

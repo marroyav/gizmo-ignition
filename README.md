@@ -4,7 +4,7 @@ This repository contains the publication-safe Ignition 8.3 resources and
 migration tooling for two GIZMo implementations:
 
 - `[default]GIZMo/Kria`, using the `GIZMo Kria` OPC UA connection; and
-- `[default]GIZMo/Legacy`, using the `GIZMo Legacy` read-only OPC UA server
+- `[default]GIZMo/Legacy`, using the `GIZMo Legacy` native OPC UA server
   connection.
 
 Both devices use the canonical `urn:fnal:gizmo` namespace. The committed
@@ -26,8 +26,16 @@ Create the following OPC UA connections on the target Gateway:
 
 | Connection name | Endpoint | Mode |
 |---|---|---|
-| `GIZMo Kria` | site-assigned | read-only |
-| `GIZMo Legacy` | site-assigned legacy server | read-only |
+| `GIZMo Kria` | site-assigned | writable configuration connection |
+| `GIZMo Legacy` | site-assigned legacy server, TCP 4842; test Gateway uses `opc.tcp://127.0.0.1:48454` | authenticated, capability-bounded |
+
+The Kria tree enables writes only for `Configuration/ThresholdOhm` and
+`Configuration/AveragesPerCalculation`. The legacy tree enables writes only
+for `Configuration/ThresholdOhm`, with the recovered 0--1023-ohm hardware
+range. All measurement/readback tags remain read-only. The legacy connection
+must use the target-generated control credential stored in the Gateway's
+protected credential store; its anonymous session remains useful for reads but
+cannot write. Limit write permission to the approved Ignition operator role.
 
 Connection resources are intentionally absent. Even a connection using
 `SecurityPolicy=None` can contain a Gateway-bound encrypted key-store secret.
@@ -35,15 +43,20 @@ Endpoints, certificates, credentials, database connections, user sources, and
 Gateway backups must remain in the site configuration—not in this repository.
 
 The Perspective routes are `/kria`, `/legacy`, and `/tags`. The root route
-opens the Kria view. The legacy `Alarm.Active` tag is imported without an
-Ignition alarm definition until commissioning validates the server's
-authoritative alarm readback.
+opens the Kria view. Each device overview includes protected numeric inputs
+for exactly the writable tags listed above plus read-only
+`Configuration/LastCommandResult` feedback. A value is committed when the
+operator presses Enter or leaves the field. The legacy `Alarm.Active` tag is
+imported without an Ignition alarm definition until commissioning validates
+the server's authoritative alarm readback.
 
-The legacy OPC UA server is under development and is treated here as an
-expected dependency, not a commissioned endpoint. Before enabling its history
-or alarms, verify namespace/model compatibility, target identity, coherent
-cycle publication, source timestamps and status codes, restart/network-loss
-behavior, and the read-only boundary required by the ICD.
+The native legacy OPC UA server, target-local recovery buffer, and automatic
+time service are deployed on the ZedBoard. Its authenticated 100-ohm
+idempotent threshold write passed persistent-file, controller-word, recovery-
+journal, and display-transaction readback. Production acceptance still
+requires the 100-cycle physical-display comparison, authoritative alarm-return
+readback, and approval of the isolated-network credential policy described by
+the ICD. Other legacy writes and all legacy methods remain unsupported.
 
 ## Rebuild and test
 

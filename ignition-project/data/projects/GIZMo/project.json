@@ -1,6 +1,6 @@
 {
-  "title": "GIZMo Dual Monitor",
-  "description": "Read-only Perspective project for Kria and legacy GIZMo OPC-UA adapters.",
+  "title": "GIZMo Dual Interface",
+  "description": "Dual-platform GIZMo monitoring and capability-scoped remote configuration.",
   "enabled": true,
   "inheritable": false,
   "parent": ""

@@ -1,5 +1,5 @@
 {
-  "format": "gizmo-ignition-dual/v1",
+  "format": "gizmo-ignition-dual/v2",
   "ignition_target": "8.3.8",
   "project": "GIZMo",
   "namespace_uri": "urn:fnal:gizmo",
@@ -20,7 +20,16 @@
   ],
   "variable_count_per_device": 431,
   "total_tag_count": 862,
-  "bridge_read_only": true,
+  "bridge_read_only": false,
+  "write_policy": {
+    "Kria": [
+      "Configuration/AveragesPerCalculation",
+      "Configuration/ThresholdOhm"
+    ],
+    "Legacy": [
+      "Configuration/ThresholdOhm"
+    ]
+  },
   "tag_history_enabled": false,
   "connection_resources_committed": false,
   "database_connections_committed": false

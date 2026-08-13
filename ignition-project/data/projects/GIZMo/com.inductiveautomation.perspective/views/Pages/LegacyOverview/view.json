@@ -99,7 +99,7 @@
               "shrink": 1
             },
             "props": {
-              "text": "READ ONLY · IGNITION BRIDGE",
+              "text": "REMOTE CONFIG · THRESHOLD ONLY",
               "textStyle": {
                 "color": "#c3c9cf",
                 "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
@@ -1049,6 +1049,258 @@
             "fontWeight": 500
           }
         }
+      },
+      {
+        "type": "ia.container.flex",
+        "meta": {
+          "name": "RemoteConfiguration"
+        },
+        "position": {
+          "basis": "220px",
+          "grow": 0,
+          "shrink": 0
+        },
+        "props": {
+          "direction": "column"
+        },
+        "children": [
+          {
+            "type": "ia.display.label",
+            "meta": {
+              "name": "RemoteConfigurationTitle"
+            },
+            "position": {
+              "basis": "34px",
+              "grow": 0,
+              "shrink": 0
+            },
+            "props": {
+              "text": "REMOTE CONFIGURATION",
+              "textStyle": {
+                "color": "#b8c41f",
+                "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                "fontSize": "16px",
+                "fontWeight": 800
+              }
+            }
+          },
+          {
+            "type": "ia.container.flex",
+            "meta": {
+              "name": "RemoteConfigurationFields"
+            },
+            "position": {
+              "basis": "auto",
+              "grow": 1,
+              "shrink": 1
+            },
+            "props": {
+              "direction": "row",
+              "wrap": "wrap"
+            },
+            "children": [
+              {
+                "type": "ia.container.flex",
+                "meta": {
+                  "name": "ThresholdSetpoint"
+                },
+                "position": {
+                  "basis": "280px",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "direction": "column",
+                  "style": {
+                    "backgroundColor": "#3f464d",
+                    "borderRadius": "8px",
+                    "margin": "6px",
+                    "minHeight": "150px",
+                    "padding": "18px"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "ia.display.label",
+                    "meta": {
+                      "name": "ThresholdSetpointTitle"
+                    },
+                    "position": {
+                      "basis": "28px",
+                      "grow": 0,
+                      "shrink": 1
+                    },
+                    "props": {
+                      "text": "REMOTE THRESHOLD SETPOINT · Ω",
+                      "textStyle": {
+                        "color": "#c3c9cf",
+                        "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                        "fontSize": "11px",
+                        "fontWeight": 700
+                      }
+                    }
+                  },
+                  {
+                    "type": "ia.input.numeric-entry-field",
+                    "version": 0,
+                    "meta": {
+                      "name": "ThresholdSetpointInput"
+                    },
+                    "position": {
+                      "basis": "58px",
+                      "grow": 0,
+                      "shrink": 0
+                    },
+                    "props": {
+                      "value": 100,
+                      "format": "0",
+                      "mode": "protected",
+                      "align": "right",
+                      "enabled": true,
+                      "inputBounds": {
+                        "minimum": 1,
+                        "maximum": 500,
+                        "invalidStyle": {
+                          "color": "#ff6a2a"
+                        }
+                      },
+                      "spinner": {
+                        "enabled": true,
+                        "increment": 1
+                      },
+                      "tooltipText": "Protected entry; press Enter or leave the field to commit. Initial operator band: 1–500 Ω.",
+                      "style": {
+                        "backgroundColor": "#1c1f22",
+                        "borderColor": "#b8c41f",
+                        "borderRadius": "5px",
+                        "color": "#f3f4ea",
+                        "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                        "fontSize": "24px",
+                        "fontWeight": 700,
+                        "paddingLeft": "12px",
+                        "paddingRight": "12px"
+                      }
+                    },
+                    "propConfig": {
+                      "props.value": {
+                        "binding": {
+                          "type": "tag",
+                          "config": {
+                            "mode": "direct",
+                            "tagPath": "[default]GIZMo/Legacy/Configuration/ThresholdOhm",
+                            "fallbackDelay": 2.5,
+                            "publishInitial": false,
+                            "bidirectional": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "ia.display.label",
+                    "meta": {
+                      "name": "ThresholdSetpointHelp"
+                    },
+                    "position": {
+                      "basis": "auto",
+                      "grow": 1,
+                      "shrink": 1
+                    },
+                    "props": {
+                      "text": "Protected entry; press Enter or leave the field to commit. Initial operator band: 1–500 Ω.",
+                      "style": {
+                        "whiteSpace": "normal"
+                      },
+                      "textStyle": {
+                        "color": "#c3c9cf",
+                        "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                        "fontSize": "10px"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ia.container.flex",
+                "meta": {
+                  "name": "CommandResult"
+                },
+                "position": {
+                  "basis": "280px",
+                  "grow": 1,
+                  "shrink": 1
+                },
+                "props": {
+                  "direction": "column",
+                  "style": {
+                    "backgroundColor": "#3f464d",
+                    "borderRadius": "8px",
+                    "margin": "6px",
+                    "minHeight": "150px",
+                    "padding": "18px"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "ia.display.label",
+                    "meta": {
+                      "name": "CommandResultTitle"
+                    },
+                    "position": {
+                      "basis": "28px",
+                      "grow": 0,
+                      "shrink": 1
+                    },
+                    "props": {
+                      "text": "LAST CONFIGURATION RESULT",
+                      "textStyle": {
+                        "color": "#c3c9cf",
+                        "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                        "fontSize": "11px",
+                        "fontWeight": 700
+                      }
+                    }
+                  },
+                  {
+                    "type": "ia.display.label",
+                    "meta": {
+                      "name": "CommandResultValue"
+                    },
+                    "position": {
+                      "basis": "auto",
+                      "grow": 1,
+                      "shrink": 1
+                    },
+                    "props": {
+                      "text": "No configuration command reported",
+                      "style": {
+                        "whiteSpace": "normal"
+                      },
+                      "textStyle": {
+                        "color": "#f3f4ea",
+                        "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
+                        "fontSize": "13px"
+                      }
+                    },
+                    "propConfig": {
+                      "props.text": {
+                        "binding": {
+                          "type": "tag",
+                          "config": {
+                            "mode": "direct",
+                            "tagPath": "[default]GIZMo/Legacy/Configuration/LastCommandResult",
+                            "fallbackDelay": 2.5,
+                            "publishInitial": false
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   },
