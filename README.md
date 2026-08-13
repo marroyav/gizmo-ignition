@@ -4,13 +4,17 @@ This repository contains the publication-safe Ignition 8.3 resources and
 migration tooling for two GIZMo implementations:
 
 - `[default]GIZMo/Kria`, using the `GIZMo Kria` OPC UA connection; and
-- `[default]GIZMo/Legacy`, using the `GIZMo Legacy` read-only adapter
+- `[default]GIZMo/Legacy`, using the `GIZMo Legacy` read-only OPC UA server
   connection.
 
 Both devices use the canonical `urn:fnal:gizmo` namespace. The committed
 project contains 431 tags per device, a Perspective overview for each device,
 a tag inventory, tag groups, history migration tools, and deterministic
 resource-generation inputs.
+
+The public-review interface and acceptance gates are maintained in
+[`marroyav/gizmo-icd`](https://github.com/marroyav/gizmo-icd); the Kria
+producer is maintained in [`marroyav/GIZMo`](https://github.com/marroyav/GIZMo).
 
 ## Import
 
@@ -23,7 +27,7 @@ Create the following OPC UA connections on the target Gateway:
 | Connection name | Endpoint | Mode |
 |---|---|---|
 | `GIZMo Kria` | site-assigned | read-only |
-| `GIZMo Legacy` | site-assigned adapter | read-only |
+| `GIZMo Legacy` | site-assigned legacy server | read-only |
 
 Connection resources are intentionally absent. Even a connection using
 `SecurityPolicy=None` can contain a Gateway-bound encrypted key-store secret.
@@ -32,8 +36,14 @@ Gateway backups must remain in the site configuration—not in this repository.
 
 The Perspective routes are `/kria`, `/legacy`, and `/tags`. The root route
 opens the Kria view. The legacy `Alarm.Active` tag is imported without an
-Ignition alarm definition until commissioning validates the adapter's
+Ignition alarm definition until commissioning validates the server's
 authoritative alarm readback.
+
+The legacy OPC UA server is under development and is treated here as an
+expected dependency, not a commissioned endpoint. Before enabling its history
+or alarms, verify namespace/model compatibility, target identity, coherent
+cycle publication, source timestamps and status codes, restart/network-loss
+behavior, and the read-only boundary required by the ICD.
 
 ## Rebuild and test
 

@@ -135,11 +135,12 @@ class IgnitionBackfillTests(unittest.TestCase):
             "sslrootcert=%2Fetc%2Fpki%2Fca-trust%2Fsource%2Fanchors%2F"
             "fermilab-postgres.pem",
         )
+        synthetic_credential = "test-only-database-value"
         database = postgres_history.database_connection_payload(
             name="GIZMo PostgreSQL",
             connect_url=url,
             username="gizmo_ignition",
-            password="never-print-this",
+            password=synthetic_credential,
         )
         historian = postgres_history.sql_historian_payload(
             "GIZMo PostgreSQL History", "GIZMo PostgreSQL"
@@ -149,7 +150,7 @@ class IgnitionBackfillTests(unittest.TestCase):
         )
         plan = postgres_history.redacted_plan(database, historian, splitter)
         serialized = json.dumps(plan)
-        self.assertNotIn("never-print-this", serialized)
+        self.assertNotIn(synthetic_credential, serialized)
         self.assertEqual(
             plan["changes"][0]["resource"]["config"]["password"],
             "<GIZMO_POSTGRES_PASSWORD>",
