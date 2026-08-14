@@ -81,8 +81,10 @@ FAST_IMPORT_PATHS = (
     "Time.UptimeSeconds",
     "SDR.FrameSequence",
     "Alarm.Active",
-    # This string is authoritative for HIGH Z.  ResistanceOhm stays null with
-    # Bad_OutofRange quality; no artificial 500 ohm value is introduced.
+    # This string is authoritative for HIGH Z. Historical model-1.3.0 rows
+    # retain their captured Bad_OutofRange status during migration; current
+    # model 1.3.1 publishes the same null/OutOfRange state with Good status.
+    # No artificial 500 ohm value is introduced.
     "Measurement.ResistanceRange",
 )
 
@@ -468,7 +470,8 @@ def main() -> int:
             "board clock experienced discontinuities."
         ),
         "high_z_policy": (
-            "ResistanceOhm remains null/Bad_OutofRange and "
+            "Historical source status is preserved: model-1.3.0 rows may carry "
+            "null/Bad_OutofRange while current model 1.3.1 uses null/Good; "
             "ResistanceRange retains the authoritative OutOfRange string."
         ),
         "quality_policy": (

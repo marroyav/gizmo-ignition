@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -91,26 +92,62 @@ class DualProjectTests(unittest.TestCase):
                         writable.add(path)
             self.assertEqual(writable, expected, device)
 
-    def test_legacy_threshold_uses_recovered_hardware_range(self) -> None:
-        path = (
+    def test_both_thresholds_retain_the_kria_contract_metadata(self) -> None:
+        base = (
             PROJECT
-            / "data/config/resources/core/ignition/tag-definition/default/GIZMo/Legacy/Configuration/tags.json"
+            / "data/config/resources/core/ignition/tag-definition/default/GIZMo"
         )
-        tags = json.loads(path.read_text())
-        threshold = next(tag for tag in tags if tag["name"] == "ThresholdOhm")
-        self.assertFalse(threshold["readOnly"])
-        self.assertEqual(threshold["engLow"], 0.0)
-        self.assertEqual(threshold["engHigh"], 1023.0)
-        self.assertIn("authenticated remote legacy threshold", threshold["documentation"].lower())
+        for device in ("Kria", "Legacy"):
+            tags = json.loads(
+                (base / device / "Configuration/tags.json").read_text()
+            )
+            threshold = next(
+                tag for tag in tags if tag["name"] == "ThresholdOhm"
+            )
+            self.assertFalse(threshold["readOnly"])
+            self.assertEqual(threshold["engLow"], 0.0)
+            self.assertEqual(threshold["engHigh"], 1_000_000.0)
+        legacy = json.loads(
+            (base / "Legacy/Configuration/tags.json").read_text()
+        )
+        threshold = next(tag for tag in legacy if tag["name"] == "ThresholdOhm")
+        self.assertIn(
+            "hardware-supported 0 through 1023 ohm subset",
+            threshold["documentation"].lower(),
+        )
+        self.assertIn("kria-authoritative contract", threshold["documentation"].lower())
 
     def test_manifest_records_capability_scoped_write_policy(self) -> None:
         manifest = json.loads((PROJECT / "manifest.json").read_text())
         self.assertEqual(manifest["format"], "gizmo-ignition-dual/v2")
+        self.assertEqual(manifest["opcua_model_version"], "1.3.1")
+        self.assertEqual(
+            manifest["opcua_contract_sha256"],
+            "25d758ecb65db09a03f5acbbf39db714caa711efbac4d4b286c3ff63b2459201",
+        )
+        self.assertEqual(
+            manifest["opcua_contract_authority"],
+            "GIZMo Kria OPC UA implementation",
+        )
+        self.assertEqual(manifest["variable_count_per_device"], 457)
+        self.assertEqual(manifest["total_tag_count"], 914)
         self.assertFalse(manifest["bridge_read_only"])
         self.assertEqual(
             {key: set(value) for key, value in manifest["write_policy"].items()},
             self.expected_writes,
         )
+
+    def test_complete_service_inventory_is_present_for_both_devices(self) -> None:
+        base = (
+            PROJECT
+            / "data/config/resources/core/ignition/tag-definition/default/GIZMo"
+        )
+        for device in ("Kria", "Legacy"):
+            for unit in ("gizmo-dashboard.service", "gizmo-historian.service"):
+                tags = json.loads(
+                    (base / device / "Services/Units" / unit / "tags.json").read_text()
+                )
+                self.assertEqual(len(tags), 13)
 
     def test_overviews_expose_only_the_approved_remote_inputs(self) -> None:
         expected = {
@@ -155,6 +192,67 @@ class DualProjectTests(unittest.TestCase):
                 config["tagPath"],
                 f"[default]GIZMo/{device}/Configuration/LastCommandResult",
             )
+
+    def test_connections_are_independent_and_nodeids_are_identical(self) -> None:
+        manifest = json.loads((PROJECT / "manifest.json").read_text())
+        devices = {item["name"]: item for item in manifest["devices"]}
+        self.assertEqual(devices["Kria"]["contract_role"], "authority")
+        self.assertEqual(
+            devices["Legacy"]["contract_role"], "conforming producer"
+        )
+        self.assertTrue(all(
+            item["independent_connection"] for item in devices.values()
+        ))
+        self.assertTrue(manifest["no_cross_device_control"])
+
+        root = (
+            PROJECT
+            / "data/config/resources/core/ignition/tag-definition/default/GIZMo"
+        )
+        kria = {}
+        legacy = {}
+        for device, target in (("Kria", kria), ("Legacy", legacy)):
+            for path in sorted((root / device).rglob("tags.json")):
+                for tag in json.loads(path.read_text()):
+                    if tag.get("tagType") != "AtomicTag":
+                        continue
+                    relative = path.parent.relative_to(root / device)
+                    key = "/".join((*relative.parts, tag["name"]))
+                    target[key] = (tag["opcServer"], tag["opcItemPath"])
+
+        self.assertEqual(kria.keys(), legacy.keys())
+        self.assertEqual({value[0] for value in kria.values()}, {"GIZMo Kria"})
+        self.assertEqual(
+            {value[0] for value in legacy.values()}, {"GIZMo Legacy"}
+        )
+        self.assertEqual(
+            {key: value[1] for key, value in kria.items()},
+            {key: value[1] for key, value in legacy.items()},
+        )
+
+    def test_local_schema_snapshot_matches_both_manifests(self) -> None:
+        schema_path = REPOSITORY / "schema/gizmo-opcua-contract.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        source = json.loads(
+            (REPOSITORY / "source/single-device/manifest.json").read_text()
+        )
+        dual = json.loads((PROJECT / "manifest.json").read_text())
+        raw_digest = hashlib.sha256(schema_path.read_bytes()).hexdigest()
+        self.assertEqual(source["schema_sha256"], raw_digest)
+        self.assertEqual(dual["schema_sha256"], raw_digest)
+        self.assertEqual(source["opcua_contract_sha256"], schema["contract_sha256"])
+        self.assertEqual(dual["opcua_contract_sha256"], schema["contract_sha256"])
+
+    def test_high_z_is_documented_as_a_good_quality_range_state(self) -> None:
+        path = (
+            PROJECT
+            / "data/config/resources/core/ignition/tag-definition/default/GIZMo"
+            / "Kria/Measurement/tags.json"
+        )
+        tags = {item["name"]: item for item in json.loads(path.read_text())}
+        resistance = tags["ResistanceOhm"]
+        self.assertIn("NaN with Good status", resistance["documentation"])
+        self.assertIn("valid measurement state", resistance["documentation"])
 
     def test_no_site_connection_or_database_resource_is_committed(self) -> None:
         forbidden_parts = {"opc-connection", "database-connection"}

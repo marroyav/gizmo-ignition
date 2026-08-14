@@ -170,7 +170,7 @@
     "tagGroup": "GIZMo Fast",
     "opcServer": "GIZMo Kria",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.ResistanceOhm",
-    "documentation": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with BadOutOfRange and the panel displays HIGH Z.",
+    "documentation": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with Good status and ResistanceRange=OutOfRange: HIGH Z is a valid measurement state, not a quality fault.",
     "engUnit": "Ohm"
   },
   {

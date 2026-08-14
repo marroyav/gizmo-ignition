@@ -1041,7 +1041,7 @@
           "shrink": 1
         },
         "props": {
-          "text": "The GIZMo is offline, so Bad/Disconnected quality overlays are expected. All 431 canonical variables are configured under [default]GIZMo.",
+          "text": "The GIZMo is offline, so Bad/Disconnected quality overlays are expected. All 457 canonical variables are configured under [default]GIZMo.",
           "textStyle": {
             "color": "#c3c9cf",
             "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
@@ -1168,7 +1168,7 @@
                         "enabled": true,
                         "increment": 1
                       },
-                      "tooltipText": "Protected entry; press Enter or leave the field to commit. Initial operator band: 1–500 Ω.",
+                      "tooltipText": "Protected entry; press Enter or leave the field to commit. Commissioning entry band: 1–500 Ω; this UI bound does not redefine the canonical engineering range.",
                       "style": {
                         "backgroundColor": "#1c1f22",
                         "borderColor": "#b8c41f",
@@ -1207,7 +1207,7 @@
                       "shrink": 1
                     },
                     "props": {
-                      "text": "Protected entry; press Enter or leave the field to commit. Initial operator band: 1–500 Ω.",
+                      "text": "Protected entry; press Enter or leave the field to commit. Commissioning entry band: 1–500 Ω; this UI bound does not redefine the canonical engineering range.",
                       "style": {
                         "whiteSpace": "normal"
                       },

@@ -47,7 +47,7 @@
           "shrink": 1
         },
         "props": {
-          "text": "431 canonical OPC-UA variables \u00b7 all imported read-only \u00b7 history disabled",
+          "text": "457 canonical OPC-UA variables \u00b7 all imported read-only \u00b7 history disabled",
           "textStyle": {
             "color": "#c3c9cf",
             "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
@@ -76,7 +76,7 @@
               "group": "GIZMo Fast",
               "sourceWritable": false,
               "bridgeReadOnly": true,
-              "description": "True when the current measurement satisfies an alarm condition."
+              "description": "Authoritative composite alarm decision reported by the ZMon measurement engine at the relay/beacon control branch; not recomputed by OPC UA."
             },
             {
               "path": "Alarm/LatchTime",
@@ -106,7 +106,7 @@
               "group": "GIZMo Fast",
               "sourceWritable": false,
               "bridgeReadOnly": true,
-              "description": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+              "description": "Alarm reason reported directly by the ZMon measurement engine, or empty when the composite alarm is clear."
             },
             {
               "path": "Calibration/ConfiguredThresholdOhm",
@@ -846,7 +846,7 @@
               "group": "GIZMo Inventory",
               "sourceWritable": false,
               "bridgeReadOnly": true,
-              "description": "Kria shell type reported by shell.json."
+              "description": "FPGA platform shell type when reported by the runtime image."
             },
             {
               "path": "Health/Calibration",
@@ -1046,7 +1046,7 @@
               "group": "GIZMo Inventory",
               "sourceWritable": false,
               "bridgeReadOnly": true,
-              "description": "Ground Impedance Monitor using the AMD Kria platform."
+              "description": "Instrument product and hardware platform name."
             },
             {
               "path": "Identity/RuntimeVersion",
@@ -1196,7 +1196,7 @@
               "group": "GIZMo Fast",
               "sourceWritable": false,
               "bridgeReadOnly": true,
-              "description": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with BadOutOfRange and the panel displays HIGH Z."
+              "description": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with Good status and ResistanceRange=OutOfRange: HIGH Z is a valid measurement state, not a quality fault."
             },
             {
               "path": "Measurement/ResistanceRange",
@@ -2669,6 +2669,136 @@
               "description": "systemd unit name."
             },
             {
+              "path": "Services/Units/gizmo-dashboard.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-dashboard.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
               "path": "Services/Units/gizmo-display.service/ActiveSince",
               "opcType": "DateTime",
               "ignitionType": "DateTime",
@@ -2920,6 +3050,136 @@
             },
             {
               "path": "Services/Units/gizmo-hardware.service/Unit",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd unit name."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/ActiveSince",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Time the unit entered active state."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/ActiveState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd active state."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/Description",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd description."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/ExitStatus",
+              "opcType": "Int32",
+              "ignitionType": "Int4",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last main-process exit status."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/LoadState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd load state."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/MainPid",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current main process ID."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/Quality",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Unit quality."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/Required",
+              "opcType": "Boolean",
+              "ignitionType": "Boolean",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "True when gizmo.target treats this unit as required."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/RestartCount",
+              "opcType": "UInt32",
+              "ignitionType": "Int8",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Automatic restart count."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/Result",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Last systemd result."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/StatusText",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Current systemd status text."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/SubState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "systemd sub-state."
+            },
+            {
+              "path": "Services/Units/gizmo-historian.service/Unit",
               "opcType": "String",
               "ignitionType": "String",
               "unit": "",

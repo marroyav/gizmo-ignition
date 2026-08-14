@@ -101,7 +101,7 @@
     "tagGroup": "GIZMo Inventory",
     "opcServer": "GIZMo Legacy",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Identity.ProductName",
-    "documentation": "Ground Impedance Monitor using the AMD Kria platform."
+    "documentation": "Instrument product and hardware platform name."
   },
   {
     "name": "RuntimeVersion",

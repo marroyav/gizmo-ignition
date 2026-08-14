@@ -22,7 +22,7 @@
                 "tagGroup": "GIZMo Fast",
                 "opcServer": "GIZMo Kria",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Active",
-                "documentation": "True when the current measurement satisfies an alarm condition.",
+                "documentation": "Authoritative composite alarm decision reported by the ZMon measurement engine at the relay/beacon control branch; not recomputed by OPC UA.",
                 "alarms": [
                   {
                     "name": "Ground Fault",
@@ -71,7 +71,7 @@
                 "tagGroup": "GIZMo Fast",
                 "opcServer": "GIZMo Kria",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Reason",
-                "documentation": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+                "documentation": "Alarm reason reported directly by the ZMon measurement engine, or empty when the composite alarm is clear."
               }
             ]
           },
@@ -1085,7 +1085,7 @@
                 "tagGroup": "GIZMo Inventory",
                 "opcServer": "GIZMo Kria",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Firmware.ShellName",
-                "documentation": "Kria shell type reported by shell.json."
+                "documentation": "FPGA platform shell type when reported by the runtime image."
               }
             ]
           },
@@ -1357,7 +1357,7 @@
                 "tagGroup": "GIZMo Inventory",
                 "opcServer": "GIZMo Kria",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Identity.ProductName",
-                "documentation": "Ground Impedance Monitor using the AMD Kria platform."
+                "documentation": "Instrument product and hardware platform name."
               },
               {
                 "name": "RuntimeVersion",
@@ -1562,7 +1562,7 @@
                 "tagGroup": "GIZMo Fast",
                 "opcServer": "GIZMo Kria",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.ResistanceOhm",
-                "documentation": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with BadOutOfRange and the panel displays HIGH Z.",
+                "documentation": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with Good status and ResistanceRange=OutOfRange: HIGH Z is a valid measurement state, not a quality fault.",
                 "engUnit": "Ohm"
               },
               {
@@ -3560,6 +3560,181 @@
                     ]
                   },
                   {
+                    "name": "gizmo-dashboard.service",
+                    "tagType": "Folder",
+                    "tags": [
+                      {
+                        "name": "ActiveSince",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "DateTime",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.ActiveSince",
+                        "documentation": "Time the unit entered active state."
+                      },
+                      {
+                        "name": "ActiveState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.ActiveState",
+                        "documentation": "systemd active state."
+                      },
+                      {
+                        "name": "Description",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Description",
+                        "documentation": "systemd description."
+                      },
+                      {
+                        "name": "ExitStatus",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int4",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.ExitStatus",
+                        "documentation": "Last main-process exit status."
+                      },
+                      {
+                        "name": "LoadState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.LoadState",
+                        "documentation": "systemd load state."
+                      },
+                      {
+                        "name": "MainPid",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.MainPid",
+                        "documentation": "Current main process ID."
+                      },
+                      {
+                        "name": "Quality",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Quality",
+                        "documentation": "Unit quality."
+                      },
+                      {
+                        "name": "Required",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Boolean",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Required",
+                        "documentation": "True when gizmo.target treats this unit as required."
+                      },
+                      {
+                        "name": "RestartCount",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.RestartCount",
+                        "documentation": "Automatic restart count."
+                      },
+                      {
+                        "name": "Result",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Result",
+                        "documentation": "Last systemd result."
+                      },
+                      {
+                        "name": "StatusText",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.StatusText",
+                        "documentation": "Current systemd status text."
+                      },
+                      {
+                        "name": "SubState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.SubState",
+                        "documentation": "systemd sub-state."
+                      },
+                      {
+                        "name": "Unit",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Unit",
+                        "documentation": "systemd unit name."
+                      }
+                    ]
+                  },
+                  {
                     "name": "gizmo-display.service",
                     "tagType": "Folder",
                     "tags": [
@@ -3905,6 +4080,181 @@
                         "tagGroup": "GIZMo Platform",
                         "opcServer": "GIZMo Kria",
                         "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_hardware_service.Unit",
+                        "documentation": "systemd unit name."
+                      }
+                    ]
+                  },
+                  {
+                    "name": "gizmo-historian.service",
+                    "tagType": "Folder",
+                    "tags": [
+                      {
+                        "name": "ActiveSince",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "DateTime",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.ActiveSince",
+                        "documentation": "Time the unit entered active state."
+                      },
+                      {
+                        "name": "ActiveState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.ActiveState",
+                        "documentation": "systemd active state."
+                      },
+                      {
+                        "name": "Description",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Description",
+                        "documentation": "systemd description."
+                      },
+                      {
+                        "name": "ExitStatus",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int4",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.ExitStatus",
+                        "documentation": "Last main-process exit status."
+                      },
+                      {
+                        "name": "LoadState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.LoadState",
+                        "documentation": "systemd load state."
+                      },
+                      {
+                        "name": "MainPid",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.MainPid",
+                        "documentation": "Current main process ID."
+                      },
+                      {
+                        "name": "Quality",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Quality",
+                        "documentation": "Unit quality."
+                      },
+                      {
+                        "name": "Required",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Boolean",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Required",
+                        "documentation": "True when gizmo.target treats this unit as required."
+                      },
+                      {
+                        "name": "RestartCount",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.RestartCount",
+                        "documentation": "Automatic restart count."
+                      },
+                      {
+                        "name": "Result",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Result",
+                        "documentation": "Last systemd result."
+                      },
+                      {
+                        "name": "StatusText",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.StatusText",
+                        "documentation": "Current systemd status text."
+                      },
+                      {
+                        "name": "SubState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.SubState",
+                        "documentation": "systemd sub-state."
+                      },
+                      {
+                        "name": "Unit",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Kria",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Unit",
                         "documentation": "systemd unit name."
                       }
                     ]
@@ -5921,7 +6271,7 @@
                 "tagGroup": "GIZMo Fast",
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Active",
-                "documentation": "True when the current measurement satisfies an alarm condition."
+                "documentation": "Authoritative composite alarm decision reported by the ZMon measurement engine at the relay/beacon control branch; not recomputed by OPC UA."
               },
               {
                 "name": "LatchTime",
@@ -5960,7 +6310,7 @@
                 "tagGroup": "GIZMo Fast",
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Reason",
-                "documentation": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+                "documentation": "Alarm reason reported directly by the ZMon measurement engine, or empty when the composite alarm is clear."
               }
             ]
           },
@@ -6666,10 +7016,10 @@
                 "tagGroup": "GIZMo Fast",
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Configuration.ThresholdOhm",
-                "documentation": "Authenticated remote legacy threshold. The native ZedBoard server accepts UInt32 values from 0 through 1023 ohm and performs persistent, live-word, and display-transaction readback.",
+                "documentation": "Authenticated remote legacy threshold. Canonical UInt32 metadata and the 0 through 1,000,000 ohm engineering range come from the Kria-authoritative contract; the ZedBoard server accepts the hardware-supported 0 through 1023 ohm subset and returns BadOutOfRange above it.",
                 "engUnit": "Ohm",
                 "engLow": 0.0,
-                "engHigh": 1023.0
+                "engHigh": 1000000.0
               }
             ]
           },
@@ -6974,7 +7324,7 @@
                 "tagGroup": "GIZMo Inventory",
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Firmware.ShellName",
-                "documentation": "Kria shell type reported by shell.json."
+                "documentation": "FPGA platform shell type when reported by the runtime image."
               }
             ]
           },
@@ -7246,7 +7596,7 @@
                 "tagGroup": "GIZMo Inventory",
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Identity.ProductName",
-                "documentation": "Ground Impedance Monitor using the AMD Kria platform."
+                "documentation": "Instrument product and hardware platform name."
               },
               {
                 "name": "RuntimeVersion",
@@ -7451,7 +7801,7 @@
                 "tagGroup": "GIZMo Fast",
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.ResistanceOhm",
-                "documentation": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with BadOutOfRange and the panel displays HIGH Z.",
+                "documentation": "Equivalent resistive impedance at the stimulus frequency. This value is available only when ResistanceRange is InRange. Above the validated presentation range, the result is NaN with Good status and ResistanceRange=OutOfRange: HIGH Z is a valid measurement state, not a quality fault.",
                 "engUnit": "Ohm"
               },
               {
@@ -9449,6 +9799,181 @@
                     ]
                   },
                   {
+                    "name": "gizmo-dashboard.service",
+                    "tagType": "Folder",
+                    "tags": [
+                      {
+                        "name": "ActiveSince",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "DateTime",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.ActiveSince",
+                        "documentation": "Time the unit entered active state."
+                      },
+                      {
+                        "name": "ActiveState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.ActiveState",
+                        "documentation": "systemd active state."
+                      },
+                      {
+                        "name": "Description",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Description",
+                        "documentation": "systemd description."
+                      },
+                      {
+                        "name": "ExitStatus",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int4",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.ExitStatus",
+                        "documentation": "Last main-process exit status."
+                      },
+                      {
+                        "name": "LoadState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.LoadState",
+                        "documentation": "systemd load state."
+                      },
+                      {
+                        "name": "MainPid",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.MainPid",
+                        "documentation": "Current main process ID."
+                      },
+                      {
+                        "name": "Quality",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Quality",
+                        "documentation": "Unit quality."
+                      },
+                      {
+                        "name": "Required",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Boolean",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Required",
+                        "documentation": "True when gizmo.target treats this unit as required."
+                      },
+                      {
+                        "name": "RestartCount",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.RestartCount",
+                        "documentation": "Automatic restart count."
+                      },
+                      {
+                        "name": "Result",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Result",
+                        "documentation": "Last systemd result."
+                      },
+                      {
+                        "name": "StatusText",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.StatusText",
+                        "documentation": "Current systemd status text."
+                      },
+                      {
+                        "name": "SubState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.SubState",
+                        "documentation": "systemd sub-state."
+                      },
+                      {
+                        "name": "Unit",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_dashboard_service.Unit",
+                        "documentation": "systemd unit name."
+                      }
+                    ]
+                  },
+                  {
                     "name": "gizmo-display.service",
                     "tagType": "Folder",
                     "tags": [
@@ -9794,6 +10319,181 @@
                         "tagGroup": "GIZMo Platform",
                         "opcServer": "GIZMo Legacy",
                         "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_hardware_service.Unit",
+                        "documentation": "systemd unit name."
+                      }
+                    ]
+                  },
+                  {
+                    "name": "gizmo-historian.service",
+                    "tagType": "Folder",
+                    "tags": [
+                      {
+                        "name": "ActiveSince",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "DateTime",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.ActiveSince",
+                        "documentation": "Time the unit entered active state."
+                      },
+                      {
+                        "name": "ActiveState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.ActiveState",
+                        "documentation": "systemd active state."
+                      },
+                      {
+                        "name": "Description",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Description",
+                        "documentation": "systemd description."
+                      },
+                      {
+                        "name": "ExitStatus",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int4",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.ExitStatus",
+                        "documentation": "Last main-process exit status."
+                      },
+                      {
+                        "name": "LoadState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.LoadState",
+                        "documentation": "systemd load state."
+                      },
+                      {
+                        "name": "MainPid",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.MainPid",
+                        "documentation": "Current main process ID."
+                      },
+                      {
+                        "name": "Quality",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Quality",
+                        "documentation": "Unit quality."
+                      },
+                      {
+                        "name": "Required",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Boolean",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Required",
+                        "documentation": "True when gizmo.target treats this unit as required."
+                      },
+                      {
+                        "name": "RestartCount",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "Int8",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.RestartCount",
+                        "documentation": "Automatic restart count."
+                      },
+                      {
+                        "name": "Result",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Result",
+                        "documentation": "Last systemd result."
+                      },
+                      {
+                        "name": "StatusText",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.StatusText",
+                        "documentation": "Current systemd status text."
+                      },
+                      {
+                        "name": "SubState",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.SubState",
+                        "documentation": "systemd sub-state."
+                      },
+                      {
+                        "name": "Unit",
+                        "tagType": "AtomicTag",
+                        "valueSource": "opc",
+                        "dataType": "String",
+                        "enabled": true,
+                        "readOnly": true,
+                        "historyEnabled": false,
+                        "tagGroup": "GIZMo Platform",
+                        "opcServer": "GIZMo Legacy",
+                        "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Services.Units.gizmo_historian_service.Unit",
                         "documentation": "systemd unit name."
                       }
                     ]

@@ -3,23 +3,31 @@
   "ignition_target": "8.3.8",
   "project": "GIZMo",
   "namespace_uri": "urn:fnal:gizmo",
-  "schema_sha256": "e77c9bc255693728dea76225b06dfe0d6b88a043256666c6c4cec6b9fbf9fc71",
+  "schema_sha256": "1a09ec04deb03355a1603e7c2c1279511e520906386981aab064cd9a629afe5a",
+  "opcua_model_version": "1.3.1",
+  "opcua_contract_authority": "GIZMo Kria OPC UA implementation",
+  "opcua_contract_sha256": "25d758ecb65db09a03f5acbbf39db714caa711efbac4d4b286c3ff63b2459201",
   "devices": [
     {
       "name": "Kria",
       "connection": "GIZMo Kria",
       "tag_root": "[default]GIZMo/Kria",
-      "endpoint": "site-configured"
+      "endpoint": "site-configured",
+      "contract_role": "authority",
+      "independent_connection": true
     },
     {
       "name": "Legacy",
       "connection": "GIZMo Legacy",
       "tag_root": "[default]GIZMo/Legacy",
-      "endpoint": "site-configured"
+      "endpoint": "site-configured",
+      "contract_role": "conforming producer",
+      "independent_connection": true
     }
   ],
-  "variable_count_per_device": 431,
-  "total_tag_count": 862,
+  "no_cross_device_control": true,
+  "variable_count_per_device": 457,
+  "total_tag_count": 914,
   "bridge_read_only": false,
   "write_policy": {
     "Kria": [

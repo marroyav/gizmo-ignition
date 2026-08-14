@@ -10,7 +10,7 @@
     "tagGroup": "GIZMo Fast",
     "opcServer": "GIZMo Kria",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Active",
-    "documentation": "True when the current measurement satisfies an alarm condition.",
+    "documentation": "Authoritative composite alarm decision reported by the ZMon measurement engine at the relay/beacon control branch; not recomputed by OPC UA.",
     "alarms": [
       {
         "name": "Ground Fault",
@@ -59,6 +59,6 @@
     "tagGroup": "GIZMo Fast",
     "opcServer": "GIZMo Kria",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Alarm.Reason",
-    "documentation": "ResistanceThreshold, PhaseInterpolation, HistoricalLatch, or empty."
+    "documentation": "Alarm reason reported directly by the ZMon measurement engine, or empty when the composite alarm is clear."
   }
 ]

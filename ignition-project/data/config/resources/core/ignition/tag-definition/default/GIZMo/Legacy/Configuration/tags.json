@@ -36,9 +36,9 @@
     "tagGroup": "GIZMo Fast",
     "opcServer": "GIZMo Legacy",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Configuration.ThresholdOhm",
-    "documentation": "Authenticated remote legacy threshold. The native ZedBoard server accepts UInt32 values from 0 through 1023 ohm and performs persistent, live-word, and display-transaction readback.",
+    "documentation": "Authenticated remote legacy threshold. Canonical UInt32 metadata and the 0 through 1,000,000 ohm engineering range come from the Kria-authoritative contract; the ZedBoard server accepts the hardware-supported 0 through 1023 ohm subset and returns BadOutOfRange above it.",
     "engUnit": "Ohm",
     "engLow": 0.0,
-    "engHigh": 1023.0
+    "engHigh": 1000000.0
   }
 ]

@@ -7,10 +7,19 @@ migration tooling for two GIZMo implementations:
 - `[default]GIZMo/Legacy`, using the `GIZMo Legacy` native OPC UA server
   connection.
 
-Both devices use the canonical `urn:fnal:gizmo` namespace. The committed
-project contains 431 tags per device, a Perspective overview for each device,
+Both devices use the canonical `urn:fnal:gizmo` namespace. The Kria
+implementation is the sole authority for this GIZMo--Slow Controls contract;
+the ZedBoard is a separate conforming producer at a distinct endpoint. The
+committed project contains 457 tags per device, a Perspective overview for each device,
 a tag inventory, tag groups, history migration tools, and deterministic
 resource-generation inputs.
+
+Model 1.3.1 is pinned by the contract hash recorded in the project manifest.
+The normative machine-readable artifact is
+[`schema/gizmo-opcua-contract.json`](https://github.com/marroyav/GIZMo/blob/main/schema/gizmo-opcua-contract.json)
+in the Kria producer repository. An exact digest-pinned snapshot is committed
+locally at [`schema/gizmo-opcua-contract.json`](schema/gizmo-opcua-contract.json),
+and the single-device resources are generated directly from that artifact.
 
 The public-review interface and acceptance gates are maintained in
 [`marroyav/gizmo-icd`](https://github.com/marroyav/gizmo-icd); the Kria
@@ -27,13 +36,15 @@ Create the following OPC UA connections on the target Gateway:
 | Connection name | Endpoint | Mode |
 |---|---|---|
 | `GIZMo Kria` | site-assigned | writable configuration connection |
-| `GIZMo Legacy` | site-assigned legacy server, TCP 4842; test Gateway uses `opc.tcp://127.0.0.1:48454` | authenticated, capability-bounded |
+| `GIZMo Legacy` | separate site-assigned ZedBoard endpoint | authenticated, capability-bounded |
 
 The Kria tree enables writes only for `Configuration/ThresholdOhm` and
 `Configuration/AveragesPerCalculation`. The legacy tree enables writes only
-for `Configuration/ThresholdOhm`, with the recovered 0--1023-ohm hardware
-range. All measurement/readback tags remain read-only. The legacy connection
-must use the target-generated control credential stored in the Gateway's
+for `Configuration/ThresholdOhm`. Both platforms use the canonical
+0--1,000,000-ohm threshold metadata. The ZedBoard server accepts the narrower
+0--1023-ohm hardware subset and returns `BadOutOfRange` above it; that does not
+change the contract. All measurement/readback tags remain read-only.
+The legacy connection must use the target-generated control credential stored in the Gateway's
 protected credential store; its anonymous session remains useful for reads but
 cannot write. Limit write permission to the approved Ignition operator role.
 
@@ -50,10 +61,23 @@ operator presses Enter or leaves the field. The legacy `Alarm.Active` tag is
 imported without an Ignition alarm definition until commissioning validates
 the server's authoritative alarm readback.
 
+The two OPC UA connections are independent. The Ignition project does not use
+one device as a fallback, proxy, or control path for the other, and neither
+connection starts, stops, or configures the other server. Both trees retain
+the same canonical NodeIds; device identity and connection name select the
+producer.
+
+`HIGH Z` is a valid good-quality range state. Both tag trees display
+`ResistanceRange=OutOfRange` as `HIGH Z`, keep `ResistanceOhm` non-numeric,
+and retain `Good` status; neither tree fabricates a 500- or 999-ohm sample.
+Historical model-1.3.0 backfills preserve the status code actually captured in
+those older records rather than silently rewriting history.
+
 The native legacy OPC UA server, target-local recovery buffer, and automatic
-time service are deployed on the ZedBoard. Its authenticated 100-ohm
-idempotent threshold write passed persistent-file, controller-word, recovery-
-journal, and display-transaction readback. Production acceptance still
+time service are under development for the ZedBoard. Earlier bench work
+exercised an authenticated 100-ohm idempotent threshold transaction through
+persistent-file, controller-word, recovery-journal, and display-transaction
+readback. Production acceptance still
 requires the 100-cycle physical-display comparison, authoritative alarm-return
 readback, and approval of the isolated-network credential policy described by
 the ICD. Other legacy writes and all legacy methods remain unsupported.
@@ -63,6 +87,10 @@ the ICD. Other legacy writes and all legacy methods remain unsupported.
 Rebuild the committed dual-device tree from the sanitized single-device source:
 
 ```sh
+python3 tools/generate_draft.py \
+  --schema schema/gizmo-opcua-contract.json \
+  --output source/single-device \
+  --omit-connection --force
 python3 tools/build_dual_project.py --force
 python3 -m unittest discover -s tests -v
 ```
