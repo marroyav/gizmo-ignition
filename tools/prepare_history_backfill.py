@@ -391,6 +391,7 @@ def existing_output_is_valid(
     source_sha256: str,
     start_timestamp_ms: Optional[int],
     before_timestamp_ms: Optional[int],
+    source_path_filter: Optional[list[str]],
     destination: dict[str, str],
 ) -> bool:
     manifest_path = output / "manifest.json"
@@ -408,6 +409,8 @@ def existing_output_is_valid(
         "start_timestamp_ms_inclusive": start_timestamp_ms,
         "before_timestamp_ms_exclusive": before_timestamp_ms,
     }:
+        return False
+    if manifest.get("source_path_filter") != source_path_filter:
         return False
     if manifest.get("destination") != destination:
         return False
@@ -434,6 +437,15 @@ def main() -> int:
     )
     parser.add_argument("--start-timestamp-ms", type=int)
     parser.add_argument("--before-timestamp-ms", type=int)
+    parser.add_argument(
+        "--include-source-path",
+        action="append",
+        default=[],
+        help=(
+            "include only this canonical source path; repeat for a bounded "
+            "path-selective repair"
+        ),
+    )
     args = parser.parse_args()
 
     for label, value in (
@@ -450,6 +462,24 @@ def main() -> int:
         parser.error(
             "--start-timestamp-ms must be less than --before-timestamp-ms"
         )
+
+    all_import_paths = tuple(
+        path for _group, _table, _capture, paths in GROUPS for path in paths
+    )
+    requested_paths = list(args.include_source_path)
+    if len(requested_paths) != len(set(requested_paths)):
+        parser.error("--include-source-path values must be unique")
+    unknown_paths = sorted(set(requested_paths) - set(all_import_paths))
+    if unknown_paths:
+        parser.error(
+            "unknown --include-source-path value(s): " + ", ".join(unknown_paths)
+        )
+    requested_path_set = set(requested_paths)
+    source_path_filter = (
+        [path for path in all_import_paths if path in requested_path_set]
+        if requested_paths
+        else None
+    )
 
     database = args.database.resolve()
     if not database.is_file():
@@ -474,6 +504,7 @@ def main() -> int:
         source_sha256,
         args.start_timestamp_ms,
         args.before_timestamp_ms,
+        source_path_filter,
         destination,
     ):
         print(
@@ -507,13 +538,20 @@ def main() -> int:
         group_details: dict[str, dict[str, Any]] = {}
         files: list[dict[str, Any]] = []
         for group, table, capture_paths, import_paths in GROUPS:
+            selected_import_paths = (
+                tuple(path for path in import_paths if path in requested_path_set)
+                if requested_paths
+                else import_paths
+            )
+            if not selected_import_paths:
+                continue
             group_files, status_counts, total_rows = prepare_group(
                 connection,
                 output,
                 group,
                 table,
                 capture_paths,
-                import_paths,
+                selected_import_paths,
                 args.start_timestamp_ms,
                 args.before_timestamp_ms,
             )
@@ -521,7 +559,7 @@ def main() -> int:
             group_details[group] = {
                 "source_table": table,
                 "source_rows": total_rows,
-                "source_paths": list(import_paths),
+                "source_paths": list(selected_import_paths),
                 "historical_paths": [
                     historical_path(
                         path,
@@ -531,7 +569,7 @@ def main() -> int:
                         tag_root=args.tag_root,
                         path_syntax=args.historian_path_syntax,
                     )
-                    for path in import_paths
+                    for path in selected_import_paths
                 ],
                 "status_counts": dict(sorted(status_counts.items())),
             }
@@ -567,6 +605,7 @@ def main() -> int:
             "start_timestamp_ms_inclusive": args.start_timestamp_ms,
             "before_timestamp_ms_exclusive": args.before_timestamp_ms,
         },
+        "source_path_filter": source_path_filter,
         "destination": destination,
         "groups": group_details,
         "files": files,

@@ -248,13 +248,17 @@ def atomic_tag(
         "opcItemPath": expanded_node_id(variable),
     }
     if enable_history and path in HISTORY_PATHS:
+        sample_rate = 1 if path in FAST_HISTORY_PATHS else 10
         tag.update(
             {
                 "historyProvider": history_provider,
                 "sampleMode": "Periodic",
-                "historySampleRate": 1 if path in FAST_HISTORY_PATHS else 10,
+                "historySampleRate": sample_rate,
                 "historySampleRateUnits": "SEC",
+                "deadbandMode": "Off",
                 "historicalDeadbandMode": "Off",
+                "historyMaxAge": sample_rate,
+                "historyMaxAgeUnits": "SEC",
             }
         )
     description = str(variable.get("description", "")).strip()

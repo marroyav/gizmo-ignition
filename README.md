@@ -109,8 +109,18 @@ included.
 PostgreSQL is supported as the off-board long-term historian. The configuration
 tool encrypts the database credential with the destination Gateway's key; the
 backfill uses SQL Historian `drv` paths and can require exact readback before
-each batch is checkpointed. Database endpoints, certificates, credentials,
-backups, and production ownership remain site configuration.
+each batch is checkpointed. Timestamp bounds and repeated
+`--include-source-path` arguments allow non-overlapping repair of an outage or
+one affected set of channels.
+
+Some Ignition installations omit persistent non-Good values from automatic
+tag history. `tools/install_quality_history_bridge.py` installs an isolated
+one-second Gateway timer for the 18 fast operational tags. It sends only
+non-Good, non-null observations to the selected SQL Historian, retains the
+original quality code, and never calls `forceQuality` or writes a live tag.
+Native history remains responsible for Good values. Database endpoints,
+certificates, credentials, backups, and production ownership remain site
+configuration.
 
 ## Publication boundary
 

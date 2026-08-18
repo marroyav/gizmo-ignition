@@ -20,6 +20,7 @@ from unittest.mock import Mock
 REPO = Path(__file__).resolve().parents[1]
 SCRIPT = REPO / "tools/prepare_history_backfill.py"
 INSTALL_SCRIPT = REPO / "tools/install_history_backfill.py"
+BRIDGE_INSTALL_SCRIPT = REPO / "tools/install_quality_history_bridge.py"
 POSTGRES_SCRIPT = REPO / "tools/configure_postgresql_history.py"
 SWITCH_SCRIPT = REPO / "tools/switch_history_provider.py"
 sys.path.insert(0, str(SCRIPT.parent))
@@ -270,6 +271,44 @@ class IgnitionBackfillTests(unittest.TestCase):
             self.assertNotEqual(invalid.returncode, 0)
             self.assertIn("plain file name", invalid.stderr)
 
+    def test_non_good_history_bridge_is_dedicated_and_quality_preserving(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            project = root / "project"
+            project.mkdir()
+            (project / "project.json").write_text("{}\n", encoding="utf-8")
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(BRIDGE_INSTALL_SCRIPT),
+                    "--project-dir",
+                    str(project),
+                    "--historian-provider",
+                    "GIZMo PostgreSQL History",
+                    "--gateway-name",
+                    "test-gateway",
+                ],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            summary = json.loads(result.stdout)
+            self.assertTrue(summary["enabled"])
+            timer = project / "ignition/timer/GIZMo Non-Good History"
+            resource = json.loads((timer / "resource.json").read_text())
+            self.assertEqual(resource["attributes"]["delay"], 1000)
+            self.assertTrue(resource["attributes"]["fixedDelay"])
+            self.assertFalse(resource["attributes"]["sharedThread"])
+            source = (timer / "handleTimerEvent.py").read_text()
+            self.assertIn("def handleTimerEvent():", source)
+            self.assertIn('historianProvider = "GIZMo PostgreSQL History"', source)
+            self.assertIn('gatewayName = "test-gateway"', source)
+            self.assertIn("quality.getCode()) & 1023", source)
+            self.assertIn("if value is None or quality.isGood():", source)
+            self.assertNotIn("forceQuality", source)
+
     def test_quality_mapping(self) -> None:
         self.assertEqual(backfill.quality_code("Good"), 203)
         self.assertEqual(backfill.quality_code("BadOutOfRange"), 524)
@@ -331,6 +370,14 @@ class IgnitionBackfillTests(unittest.TestCase):
         )
         self.assertEqual(sum(tag["historySampleRate"] == 1 for tag in tags), 18)
         self.assertEqual(sum(tag["historySampleRate"] == 10 for tag in tags), 32)
+        self.assertTrue(all(tag["deadbandMode"] == "Off" for tag in tags))
+        self.assertTrue(
+            all(
+                tag["historyMaxAge"] == tag["historySampleRate"]
+                and tag["historyMaxAgeUnits"] == "SEC"
+                for tag in tags
+            )
+        )
         migration_tag = generate_draft.atomic_tag(
             variables[0],
             enable_history=True,
@@ -488,6 +535,53 @@ class IgnitionBackfillTests(unittest.TestCase):
                 ),
                 cutoff_ms,
             )
+
+            selective_output = root / "staged-selective"
+            selective = subprocess.run(
+                [
+                    *command,
+                    "--output-dir",
+                    str(selective_output),
+                    "--include-source-path",
+                    "Measurement.ThresholdOhm",
+                    "--include-source-path",
+                    "Alarm.Active",
+                ],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            selective_summary = json.loads(selective.stdout)
+            self.assertEqual(selective_summary["rows"], 2)
+            self.assertEqual(selective_summary["points"], 4)
+            selective_manifest = json.loads(
+                (selective_output / "manifest.json").read_text()
+            )
+            self.assertEqual(
+                selective_manifest["source_path_filter"],
+                ["Measurement.ThresholdOhm", "Alarm.Active"],
+            )
+            self.assertEqual(
+                selective_manifest["groups"]["fast"]["source_paths"],
+                ["Measurement.ThresholdOhm", "Alarm.Active"],
+            )
+            self.assertNotIn("platform", selective_manifest["groups"])
+
+            duplicate_path = subprocess.run(
+                [
+                    *command,
+                    "--output-dir",
+                    str(root / "staged-duplicate-path"),
+                    "--include-source-path",
+                    "Alarm.Active",
+                    "--include-source-path",
+                    "Alarm.Active",
+                ],
+                text=True,
+                capture_output=True,
+            )
+            self.assertNotEqual(duplicate_path.returncode, 0)
+            self.assertIn("must be unique", duplicate_path.stderr)
 
 
 if __name__ == "__main__":
