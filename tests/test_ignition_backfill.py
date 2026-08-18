@@ -309,6 +309,9 @@ class IgnitionBackfillTests(unittest.TestCase):
             self.assertIn("quality.getCode()) & 1023", source)
             self.assertIn("if value is None or quality.isGood():", source)
             self.assertIn("Long(str(value))", source)
+            self.assertIn("isinstance(value, (int, long))", source)
+            self.assertEqual(source.count('"[default]GIZMo/'), 50)
+            self.assertIn("platformBucket = int(now.getTime() // 10000)", source)
             self.assertNotIn("forceQuality", source)
 
     def test_quality_mapping(self) -> None:

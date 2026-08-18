@@ -115,12 +115,12 @@ repair of disjoint outages or one affected set of channels.
 
 Some Ignition installations omit persistent non-Good values from automatic
 tag history. `tools/install_quality_history_bridge.py` installs an isolated
-one-second Gateway timer for the 18 fast operational tags. It sends only
-non-Good, non-null observations to the selected SQL Historian, retains the
-original quality code, and never calls `forceQuality` or writes a live tag.
-Native history remains responsible for Good values. Database endpoints,
-certificates, credentials, backups, and production ownership remain site
-configuration.
+Gateway timer for all 50 curated tags: 18 fast tags are read every second and
+32 platform tags every ten seconds. It sends only non-Good, non-null
+observations to the selected SQL Historian, retains the original quality code,
+and never calls `forceQuality` or writes a live tag. Native history remains
+responsible for Good values. Database endpoints, certificates, credentials,
+backups, and production ownership remain site configuration.
 
 ## Publication boundary
 
