@@ -251,6 +251,43 @@ def readonly_connection(path: Path) -> sqlite3.Connection:
     return connection
 
 
+def bounded_window(value: str) -> tuple[int, int]:
+    """Parse a repeatable inclusive:start/exclusive:before repair window."""
+
+    parts = value.split(":", 1)
+    if len(parts) != 2:
+        raise argparse.ArgumentTypeError(
+            "window must use START_MS:BEFORE_MS"
+        )
+    try:
+        start, before = (int(part) for part in parts)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError(
+            "window bounds must be epoch-millisecond integers"
+        ) from error
+    if start < 0 or before < 0:
+        raise argparse.ArgumentTypeError("window bounds must be non-negative")
+    if start >= before:
+        raise argparse.ArgumentTypeError(
+            "window start must be less than its exclusive upper bound"
+        )
+    return start, before
+
+
+def normalize_windows(
+    windows: list[tuple[int, int]],
+) -> tuple[tuple[int, int], ...]:
+    """Sort and merge touching windows so a source row is never duplicated."""
+
+    merged: list[tuple[int, int]] = []
+    for start, before in sorted(windows):
+        if merged and start <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], before))
+        else:
+            merged.append((start, before))
+    return tuple(merged)
+
+
 def historical_path(
     variable: str,
     *,
@@ -326,15 +363,25 @@ def source_rows(
     table: str,
     start_timestamp_ms: Optional[int],
     before_timestamp_ms: Optional[int],
+    source_windows: tuple[tuple[int, int], ...] = (),
 ) -> Iterator[sqlite3.Row]:
     predicates: list[str] = []
     parameters: list[int] = []
-    if start_timestamp_ms is not None:
-        predicates.append("receive_time_us >= ?")
-        parameters.append(start_timestamp_ms * 1000)
-    if before_timestamp_ms is not None:
-        predicates.append("receive_time_us < ?")
-        parameters.append(before_timestamp_ms * 1000)
+    if source_windows:
+        window_predicates = []
+        for start, before in source_windows:
+            window_predicates.append(
+                "(receive_time_us >= ? AND receive_time_us < ?)"
+            )
+            parameters.extend((start * 1000, before * 1000))
+        predicates.append("(" + " OR ".join(window_predicates) + ")")
+    else:
+        if start_timestamp_ms is not None:
+            predicates.append("receive_time_us >= ?")
+            parameters.append(start_timestamp_ms * 1000)
+        if before_timestamp_ms is not None:
+            predicates.append("receive_time_us < ?")
+            parameters.append(before_timestamp_ms * 1000)
     where = " WHERE " + " AND ".join(predicates) if predicates else ""
     yield from connection.execute(
         f"SELECT receive_time_us, payload FROM {table}{where} "
@@ -352,6 +399,7 @@ def prepare_group(
     import_paths: tuple[str, ...],
     start_timestamp_ms: Optional[int],
     before_timestamp_ms: Optional[int],
+    source_windows: tuple[tuple[int, int], ...] = (),
 ) -> tuple[list[dict[str, Any]], Counter[str], int]:
     indices = [capture_paths.index(path) for path in import_paths]
     status_counts: Counter[str] = Counter()
@@ -360,7 +408,11 @@ def prepare_group(
     total_rows = 0
 
     for row in source_rows(
-        connection, table, start_timestamp_ms, before_timestamp_ms
+        connection,
+        table,
+        start_timestamp_ms,
+        before_timestamp_ms,
+        source_windows,
     ):
         receive_time_us = int(row["receive_time_us"])
         timestamp_ms = receive_time_us // 1000
@@ -391,6 +443,7 @@ def existing_output_is_valid(
     source_sha256: str,
     start_timestamp_ms: Optional[int],
     before_timestamp_ms: Optional[int],
+    source_windows: tuple[tuple[int, int], ...],
     source_path_filter: Optional[list[str]],
     destination: dict[str, str],
 ) -> bool:
@@ -405,10 +458,28 @@ def existing_output_is_valid(
         return False
     if manifest.get("tag_path_policy") != TAG_PATH_POLICY:
         return False
-    if manifest.get("source_window") != {
-        "start_timestamp_ms_inclusive": start_timestamp_ms,
-        "before_timestamp_ms_exclusive": before_timestamp_ms,
-    }:
+    expected_window = (
+        {
+            "start_timestamp_ms_inclusive": start_timestamp_ms,
+            "before_timestamp_ms_exclusive": before_timestamp_ms,
+        }
+        if not source_windows
+        else None
+    )
+    if manifest.get("source_window") != expected_window:
+        return False
+    expected_windows = (
+        [
+            {
+                "start_timestamp_ms_inclusive": start,
+                "before_timestamp_ms_exclusive": before,
+            }
+            for start, before in source_windows
+        ]
+        if source_windows
+        else None
+    )
+    if manifest.get("source_windows") != expected_windows:
         return False
     if manifest.get("source_path_filter") != source_path_filter:
         return False
@@ -438,6 +509,17 @@ def main() -> int:
     parser.add_argument("--start-timestamp-ms", type=int)
     parser.add_argument("--before-timestamp-ms", type=int)
     parser.add_argument(
+        "--include-window-ms",
+        action="append",
+        default=[],
+        type=bounded_window,
+        metavar="START_MS:BEFORE_MS",
+        help=(
+            "include this bounded timestamp window; repeat to repair disjoint "
+            "gaps without replaying the data between them"
+        ),
+    )
+    parser.add_argument(
         "--include-source-path",
         action="append",
         default=[],
@@ -462,6 +544,15 @@ def main() -> int:
         parser.error(
             "--start-timestamp-ms must be less than --before-timestamp-ms"
         )
+    if args.include_window_ms and (
+        args.start_timestamp_ms is not None
+        or args.before_timestamp_ms is not None
+    ):
+        parser.error(
+            "--include-window-ms cannot be combined with the single-window "
+            "--start-timestamp-ms/--before-timestamp-ms options"
+        )
+    source_windows = normalize_windows(args.include_window_ms)
 
     all_import_paths = tuple(
         path for _group, _table, _capture, paths in GROUPS for path in paths
@@ -504,6 +595,7 @@ def main() -> int:
         source_sha256,
         args.start_timestamp_ms,
         args.before_timestamp_ms,
+        source_windows,
         source_path_filter,
         destination,
     ):
@@ -554,6 +646,7 @@ def main() -> int:
                 selected_import_paths,
                 args.start_timestamp_ms,
                 args.before_timestamp_ms,
+                source_windows,
             )
             files.extend(group_files)
             group_details[group] = {
@@ -601,10 +694,25 @@ def main() -> int:
             "schema_version": 2,
             "quick_check": "ok",
         },
-        "source_window": {
-            "start_timestamp_ms_inclusive": args.start_timestamp_ms,
-            "before_timestamp_ms_exclusive": args.before_timestamp_ms,
-        },
+        "source_window": (
+            {
+                "start_timestamp_ms_inclusive": args.start_timestamp_ms,
+                "before_timestamp_ms_exclusive": args.before_timestamp_ms,
+            }
+            if not source_windows
+            else None
+        ),
+        "source_windows": (
+            [
+                {
+                    "start_timestamp_ms_inclusive": start,
+                    "before_timestamp_ms_exclusive": before,
+                }
+                for start, before in source_windows
+            ]
+            if source_windows
+            else None
+        ),
         "source_path_filter": source_path_filter,
         "destination": destination,
         "groups": group_details,

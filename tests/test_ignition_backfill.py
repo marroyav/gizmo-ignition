@@ -537,6 +537,73 @@ class IgnitionBackfillTests(unittest.TestCase):
                 cutoff_ms,
             )
 
+            multi_window_output = root / "staged-multi-window"
+            first_ms = 1_774_742_400_123
+            second_ms = 1_774_828_800_456
+            multi_window = subprocess.run(
+                [
+                    *command,
+                    "--output-dir",
+                    str(multi_window_output),
+                    "--include-window-ms",
+                    f"{first_ms}:{first_ms + 1}",
+                    "--include-window-ms",
+                    f"{second_ms}:{second_ms + 1}",
+                ],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            self.assertEqual(json.loads(multi_window.stdout)["rows"], 3)
+            multi_window_manifest = json.loads(
+                (multi_window_output / "manifest.json").read_text()
+            )
+            self.assertIsNone(multi_window_manifest["source_window"])
+            self.assertEqual(
+                multi_window_manifest["source_windows"],
+                [
+                    {
+                        "start_timestamp_ms_inclusive": first_ms,
+                        "before_timestamp_ms_exclusive": first_ms + 1,
+                    },
+                    {
+                        "start_timestamp_ms_inclusive": second_ms,
+                        "before_timestamp_ms_exclusive": second_ms + 1,
+                    },
+                ],
+            )
+
+            overlapping_windows = subprocess.run(
+                [
+                    *command,
+                    "--output-dir",
+                    str(root / "staged-overlapping-windows"),
+                    "--include-window-ms",
+                    f"{first_ms}:{first_ms + 2}",
+                    "--include-window-ms",
+                    f"{first_ms + 1}:{first_ms + 3}",
+                ],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            overlapping_manifest = json.loads(
+                (
+                    root
+                    / "staged-overlapping-windows/manifest.json"
+                ).read_text()
+            )
+            self.assertEqual(json.loads(overlapping_windows.stdout)["rows"], 2)
+            self.assertEqual(
+                overlapping_manifest["source_windows"],
+                [
+                    {
+                        "start_timestamp_ms_inclusive": first_ms,
+                        "before_timestamp_ms_exclusive": first_ms + 3,
+                    }
+                ],
+            )
+
             selective_output = root / "staged-selective"
             selective = subprocess.run(
                 [

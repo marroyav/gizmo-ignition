@@ -109,9 +109,9 @@ included.
 PostgreSQL is supported as the off-board long-term historian. The configuration
 tool encrypts the database credential with the destination Gateway's key; the
 backfill uses SQL Historian `drv` paths and can require exact readback before
-each batch is checkpointed. Timestamp bounds and repeated
-`--include-source-path` arguments allow non-overlapping repair of an outage or
-one affected set of channels.
+each batch is checkpointed. Timestamp bounds, repeated `--include-window-ms`
+windows, and repeated `--include-source-path` arguments allow non-overlapping
+repair of disjoint outages or one affected set of channels.
 
 Some Ignition installations omit persistent non-Good values from automatic
 tag history. `tools/install_quality_history_bridge.py` installs an isolated
