@@ -1,6 +1,9 @@
 def handleTimerEvent():
     """Store non-Good fast telemetry without changing its quality."""
 
+    from java.lang import Long
+    from java.math import BigInteger
+
     logger = system.util.getLogger("gizmo.history.non_good_bridge")
     livePaths = [
         "[default]GIZMo/Measurement/ResistanceOhm",
@@ -41,6 +44,11 @@ def handleTimerEvent():
             logger.error(message)
             globalsMap[key] = nowMs
 
+    def historianValue(value):
+        if isinstance(value, BigInteger):
+            return Long(str(value))
+        return value
+
     try:
         qualifiedValues = list(system.tag.readBlocking(livePaths))
         timestamp = system.date.now()
@@ -53,7 +61,10 @@ def handleTimerEvent():
             qualityCode = int(quality.getCode()) & 1023
             points.append(
                 system.historian.types.dataPoint(
-                    historicalPaths[index], value, timestamp, qualityCode
+                    historicalPaths[index],
+                    historianValue(value),
+                    timestamp,
+                    qualityCode,
                 )
             )
         if not points:
@@ -65,5 +76,7 @@ def handleTimerEvent():
             failures = [str(result) for result in results if not result.isGood()]
         if failures:
             logFailure("Non-Good history store failed: " + "; ".join(failures))
-    except Exception as error:
-        logFailure("Non-Good history bridge failed: " + str(error))
+    except:
+        import sys
+
+        logFailure("Non-Good history bridge failed: " + str(sys.exc_info()[1]))

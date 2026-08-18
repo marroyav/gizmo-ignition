@@ -307,6 +307,7 @@ class IgnitionBackfillTests(unittest.TestCase):
             self.assertIn('gatewayName = "test-gateway"', source)
             self.assertIn("quality.getCode()) & 1023", source)
             self.assertIn("if value is None or quality.isGood():", source)
+            self.assertIn("Long(str(value))", source)
             self.assertNotIn("forceQuality", source)
 
     def test_quality_mapping(self) -> None:
