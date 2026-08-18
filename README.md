@@ -117,10 +117,16 @@ Some Ignition installations omit persistent non-Good values from automatic
 tag history. `tools/install_quality_history_bridge.py` installs an isolated
 Gateway timer for all 50 curated tags: 18 fast tags are read every second and
 32 platform tags every ten seconds. It sends only non-Good, non-null
-observations to the selected SQL Historian, retains the original quality code,
-and never calls `forceQuality` or writes a live tag. Native history remains
-responsible for Good values. Database endpoints, certificates, credentials,
-backups, and production ownership remain site configuration.
+observations through the site's history provider or splitter, retaining both
+the original quality code and the realtime tag path if Store and Forward must
+queue the write. It never calls `forceQuality` or writes a live tag. Native
+history remains responsible for Good values. Database endpoints, certificates,
+credentials, backups, and production ownership remain site configuration.
+
+On the tested Ignition 8.3.8 release, the timer deliberately uses the legacy
+tag-history storage form. Its AtomicPoint replacement lost individual source
+paths when an interrupted SQL write was serialized by Store and Forward.
+Revalidate that behavior after an Ignition upgrade before changing the call.
 
 ## Publication boundary
 

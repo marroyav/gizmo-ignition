@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the GIZMo non-Good history timer into an Ignition project."""
+"""Install the queue-safe GIZMo non-Good history timer."""
 
 from __future__ import annotations
 
@@ -44,7 +44,10 @@ def main() -> int:
         default=Path(__file__).with_name("quality_history_bridge_timer.py"),
     )
     parser.add_argument("--historian-provider", required=True)
-    parser.add_argument("--gateway-name", required=True)
+    parser.add_argument(
+        "--gateway-name",
+        help="Accepted for compatibility; tag-history routing does not use it.",
+    )
     parser.add_argument("--tag-provider", default="default")
     parser.add_argument("--delay-ms", type=int, default=1000)
     parser.add_argument("--disabled", action="store_true")
@@ -60,22 +63,21 @@ def main() -> int:
         parser.error("--delay-ms must be between 1000 and 60000")
     for label, value in (
         ("--historian-provider", args.historian_provider),
-        ("--gateway-name", args.gateway_name),
         ("--tag-provider", args.tag_provider),
     ):
         if not value.strip() or any(character in value for character in "\r\n"):
             parser.error(f"{label} must be a non-empty single-line value")
+    if args.gateway_name is not None and (
+        not args.gateway_name.strip()
+        or any(character in args.gateway_name for character in "\r\n")
+    ):
+        parser.error("--gateway-name must be a non-empty single-line value")
 
     source = script.read_text(encoding="utf-8")
     source = replace_once(
         source,
         '"__GIZMO_HISTORIAN_PROVIDER__"',
         json.dumps(args.historian_provider.strip()),
-    )
-    source = replace_once(
-        source,
-        '"__GIZMO_GATEWAY_NAME__"',
-        json.dumps(args.gateway_name.strip()),
     )
     source = replace_once(
         source,
@@ -115,7 +117,9 @@ def main() -> int:
             {
                 "timer_resource": str(destination),
                 "historian_provider": args.historian_provider.strip(),
-                "gateway_name": args.gateway_name.strip(),
+                "gateway_name": (
+                    args.gateway_name.strip() if args.gateway_name is not None else None
+                ),
                 "tag_provider": args.tag_provider.strip(),
                 "delay_ms": args.delay_ms,
                 "enabled": not args.disabled,

@@ -1,5 +1,5 @@
 def handleTimerEvent():
-    """Store non-Good fast telemetry without changing its quality."""
+    """Store non-Good telemetry without changing its value or quality."""
 
     from java.lang import Long
     from java.math import BigInteger
@@ -67,15 +67,9 @@ def handleTimerEvent():
     livePaths = list(fastPaths)
     if includePlatform:
         livePaths.extend(platformPaths)
-    relativePaths = [path.split("GIZMo/", 1)[1] for path in livePaths]
+    tagPaths = [path.split("]", 1)[1] for path in livePaths]
     historianProvider = "__GIZMO_HISTORIAN_PROVIDER__"
-    gatewayName = "__GIZMO_GATEWAY_NAME__"
     tagProvider = "__GIZMO_TAG_PROVIDER__"
-    historicalPaths = [
-        "histprov:%s:/drv:%s:%s:/tag:GIZMo/%s"
-        % (historianProvider, gatewayName, tagProvider, path)
-        for path in relativePaths
-    ]
 
     def logFailure(message):
         nowMs = system.date.now().getTime()
@@ -98,31 +92,33 @@ def handleTimerEvent():
         qualifiedValues = list(system.tag.readBlocking(livePaths))
         if includePlatform:
             globalsMap[platformBucketKey] = platformBucket
-        timestamp = now
-        points = []
+        storedPaths = []
+        storedValues = []
+        storedQualities = []
+        storedTimestamps = []
         for index, qualifiedValue in enumerate(qualifiedValues):
             value = qualifiedValue.getValue()
             quality = qualifiedValue.getQuality()
             if value is None or quality.isGood():
                 continue
             qualityCode = int(quality.getCode()) & 1023
-            points.append(
-                system.historian.types.dataPoint(
-                    historicalPaths[index],
-                    historianValue(value),
-                    timestamp,
-                    qualityCode,
-                )
-            )
-        if not points:
+            storedPaths.append(tagPaths[index])
+            storedValues.append(historianValue(value))
+            storedQualities.append(qualityCode)
+            storedTimestamps.append(now)
+        if not storedPaths:
             return
-        results = system.historian.storeDataPoints(points)
-        if hasattr(results, "isGood"):
-            failures = [] if results.isGood() else [str(results)]
-        else:
-            failures = [str(result) for result in results if not result.isGood()]
-        if failures:
-            logFailure("Non-Good history store failed: " + "; ".join(failures))
+        # Keep the realtime provider and tag path attached to every queued
+        # value.  The SQL historian's AtomicPoint adapter can lose that source
+        # identity if Store and Forward must serialize an interrupted write.
+        system.tag.storeTagHistory(
+            historianProvider,
+            tagProvider,
+            storedPaths,
+            storedValues,
+            storedQualities,
+            storedTimestamps,
+        )
     except:
         import sys
 

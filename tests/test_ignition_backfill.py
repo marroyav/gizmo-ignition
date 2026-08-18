@@ -287,7 +287,7 @@ class IgnitionBackfillTests(unittest.TestCase):
                     "--project-dir",
                     str(project),
                     "--historian-provider",
-                    "GIZMo PostgreSQL History",
+                    "GIZMo Dual History",
                     "--gateway-name",
                     "test-gateway",
                 ],
@@ -304,12 +304,15 @@ class IgnitionBackfillTests(unittest.TestCase):
             self.assertFalse(resource["attributes"]["sharedThread"])
             source = (timer / "handleTimerEvent.py").read_text()
             self.assertIn("def handleTimerEvent():", source)
-            self.assertIn('historianProvider = "GIZMo PostgreSQL History"', source)
-            self.assertIn('gatewayName = "test-gateway"', source)
+            self.assertIn('historianProvider = "GIZMo Dual History"', source)
+            self.assertNotIn('gatewayName = "test-gateway"', source)
             self.assertIn("quality.getCode()) & 1023", source)
             self.assertIn("if value is None or quality.isGood():", source)
             self.assertIn("Long(str(value))", source)
             self.assertIn("isinstance(value, (int, long))", source)
+            self.assertIn("system.tag.storeTagHistory(", source)
+            self.assertNotIn("system.historian.storeDataPoints", source)
+            self.assertNotIn("histprov:", source)
             self.assertEqual(source.count('"[default]GIZMo/'), 50)
             self.assertIn("platformBucket = int(now.getTime() // 10000)", source)
             self.assertNotIn("forceQuality", source)
