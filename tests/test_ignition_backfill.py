@@ -257,6 +257,7 @@ class IgnitionBackfillTests(unittest.TestCase):
             self.assertIn(f'root = "{import_root}"', startup)
             self.assertIn("qualifiedHistorianPath", startup)
             self.assertIn("system.historian.types.dataPoint", startup)
+            self.assertIn("from java.math import BigInteger", startup)
             self.assertIn("Long(str(value))", startup)
 
             invalid = subprocess.run(

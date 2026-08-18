@@ -6,6 +6,7 @@ def onStartup():
         import sys
         from java.io import BufferedReader, File, FileInputStream, InputStreamReader, RandomAccessFile
         from java.lang import Long, Thread
+        from java.math import BigInteger
         from java.util.zip import GZIPInputStream
 
         logger = system.util.getLogger("gizmo.history.backfill")
@@ -178,6 +179,8 @@ def onStartup():
         def historianValue(value):
             if isinstance(value, bool):
                 return value
+            if isinstance(value, BigInteger):
+                return Long(str(value))
             if isinstance(value, (int, long)):
                 return Long(str(value))
             return value
