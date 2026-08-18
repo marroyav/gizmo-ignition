@@ -14,6 +14,7 @@ import tempfile
 import unittest
 import zlib
 from pathlib import Path
+from unittest.mock import Mock
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -173,6 +174,32 @@ class IgnitionBackfillTests(unittest.TestCase):
             splitter["config"]["settings"]["queryLimit"]["enabled"]
         )
 
+    def test_postgresql_password_is_gateway_encrypted(self) -> None:
+        ciphertext = {
+            "protected": "protected-value",
+            "encrypted_key": "encrypted-key-value",
+            "iv": "iv-value",
+            "ciphertext": "ciphertext-value",
+            "tag": "tag-value",
+        }
+        response = Mock(ok=True)
+        response.json.return_value = ciphertext
+        gateway = Mock()
+        gateway.base_url = "http://127.0.0.1:8088"
+        gateway.session.post.return_value = response
+
+        secret = postgres_history.embedded_secret_config(
+            gateway, "never-print-this"
+        )
+
+        self.assertEqual(secret, {"type": "Embedded", "data": ciphertext})
+        gateway.session.post.assert_called_once_with(
+            "http://127.0.0.1:8088/data/api/v1/encryption/encrypt",
+            data=b"never-print-this",
+            headers={"Content-Type": "text/plain; charset=utf-8"},
+            timeout=30,
+        )
+
     def test_installer_isolates_postgresql_replay_state(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -203,6 +230,7 @@ class IgnitionBackfillTests(unittest.TestCase):
                 "120",
                 "--query-delay-ms",
                 "1000",
+                "--verify-each-batch",
                 "--disabled",
             ]
             result = subprocess.run(
@@ -216,6 +244,7 @@ class IgnitionBackfillTests(unittest.TestCase):
             )
             self.assertEqual(control["state_file"], "state-postgresql.json")
             self.assertEqual(control["query_attempts"], 120)
+            self.assertTrue(control["verify_each_batch"])
             self.assertFalse(control["enabled"])
             self.assertEqual(
                 summary["validation"],
@@ -226,6 +255,8 @@ class IgnitionBackfillTests(unittest.TestCase):
             ).read_text(encoding="utf-8")
             self.assertIn(f'root = "{import_root}"', startup)
             self.assertIn("qualifiedHistorianPath", startup)
+            self.assertIn("system.historian.types.dataPoint", startup)
+            self.assertIn("Long(str(value))", startup)
 
             invalid = subprocess.run(
                 [
@@ -250,6 +281,18 @@ class IgnitionBackfillTests(unittest.TestCase):
                 "Services.Units.gizmo_historian_service.RestartCount"
             ),
             "Services/Units/gizmo_historian_service/RestartCount",
+        )
+        self.assertEqual(
+            backfill.historical_path(
+                "Measurement.ThresholdOhm",
+                provider="GIZMo PostgreSQL History",
+                gateway="test-gateway",
+                tag_provider="default",
+                tag_root="GIZMo",
+                path_syntax="sql",
+            ),
+            "histprov:GIZMo PostgreSQL History:/drv:test-gateway:default:"
+            "/tag:GIZMo/Measurement/ThresholdOhm",
         )
 
     def test_curated_live_history_matches_backfill_model(self) -> None:
@@ -377,9 +420,74 @@ class IgnitionBackfillTests(unittest.TestCase):
             self.assertEqual(record[2][range_index], 203)
             self.assertIn("/sys:test-gateway:/", manifest["groups"]["fast"]["historical_paths"][0])
 
+            sql_output = root / "staged-sql"
+            sql_command = [
+                *command,
+                "--output-dir",
+                str(sql_output),
+                "--historian-provider",
+                "GIZMo PostgreSQL History",
+                "--historian-path-syntax",
+                "sql",
+            ]
+            sql_result = subprocess.run(
+                sql_command, check=True, text=True, capture_output=True
+            )
+            self.assertEqual(json.loads(sql_result.stdout)["action"], "prepared")
+            sql_manifest = json.loads((sql_output / "manifest.json").read_text())
+            self.assertEqual(
+                sql_manifest["destination"]["historian_path_syntax"], "sql"
+            )
+            self.assertIn(
+                "/drv:test-gateway:default:/",
+                sql_manifest["groups"]["fast"]["historical_paths"][0],
+            )
+
             second = subprocess.run(command, check=True, text=True, capture_output=True)
             self.assertEqual(json.loads(second.stdout)["action"], "already-prepared")
             self.assertEqual(sha256(database), before)
+
+            bounded_output = root / "staged-bounded"
+            cutoff_ms = 1_774_828_800_000
+            bounded = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--database",
+                    str(database),
+                    "--output-dir",
+                    str(bounded_output),
+                    "--expected-sha256",
+                    before,
+                    "--gateway-name",
+                    "test-gateway",
+                    "--before-timestamp-ms",
+                    str(cutoff_ms),
+                ],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            bounded_summary = json.loads(bounded.stdout)
+            self.assertEqual(bounded_summary["rows"], 2)
+            self.assertEqual(bounded_summary["points"], 50)
+            bounded_manifest = json.loads(
+                (bounded_output / "manifest.json").read_text()
+            )
+            self.assertEqual(
+                bounded_manifest["source_window"],
+                {
+                    "start_timestamp_ms_inclusive": None,
+                    "before_timestamp_ms_exclusive": cutoff_ms,
+                },
+            )
+            self.assertLess(
+                max(
+                    item["last_timestamp_ms"]
+                    for item in bounded_manifest["files"]
+                ),
+                cutoff_ms,
+            )
 
 
 if __name__ == "__main__":

@@ -1,8 +1,25 @@
 {
   "authority": "GIZMo Kria OPC UA implementation",
-  "contract_sha256": "25d758ecb65db09a03f5acbbf39db714caa711efbac4d4b286c3ff63b2459201",
+  "contract_sha256": "7dcad3112b8d10adf9b05c6b7acc41b1d52dd4ec97b15c94baabd6cc0850bf49",
   "extension_policy": "The listed nodes are the stable required baseline. Runtime inventory may add nodes below Network.Interfaces, Storage.Filesystems, and Services.Units without changing existing NodeIds or datatypes.",
   "methods": [
+    {
+      "browse_name": "AbortCalibration",
+      "description": "Abort an active calibration and begin verified normal-state restoration.",
+      "inputs": [],
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.AbortCalibration",
+      "outputs": [
+        {
+          "data_type": "String",
+          "data_type_node_id": "i=12",
+          "description": "Human-readable operation result.",
+          "name": "Result",
+          "value_rank": -1
+        }
+      ],
+      "parent": "Operations",
+      "path": "Operations.AbortCalibration"
+    },
     {
       "browse_name": "CaptureAdc",
       "description": "Request a raw ADC capture; read Legacy/CommandObject/csvData when complete.",
@@ -55,6 +72,40 @@
       "path": "Operations.NormalizeMagnitude"
     },
     {
+      "browse_name": "RestartMeasurementEngine",
+      "description": "Restart only the ZMon measurement engine and verify a new PID, the expected executable hash, and a fresh measurement.",
+      "inputs": [],
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.RestartMeasurementEngine",
+      "outputs": [
+        {
+          "data_type": "String",
+          "data_type_node_id": "i=12",
+          "description": "Human-readable operation result.",
+          "name": "Result",
+          "value_rank": -1
+        }
+      ],
+      "parent": "Operations",
+      "path": "Operations.RestartMeasurementEngine"
+    },
+    {
+      "browse_name": "RestoreNormalState",
+      "description": "Command and verify the approved normal measurement state.",
+      "inputs": [],
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.RestoreNormalState",
+      "outputs": [
+        {
+          "data_type": "String",
+          "data_type_node_id": "i=12",
+          "description": "Human-readable operation result.",
+          "name": "Result",
+          "value_rank": -1
+        }
+      ],
+      "parent": "Operations",
+      "path": "Operations.RestoreNormalState"
+    },
+    {
       "browse_name": "SetSystemTime",
       "description": "Set the Linux wall clock from an absolute OPC UA DateTime.",
       "inputs": [
@@ -105,7 +156,7 @@
       "path": "Operations.StartCalibration"
     }
   ],
-  "model_version": "1.3.1",
+  "model_version": "1.4.0",
   "namespace_uri": "urn:fnal:gizmo",
   "objects": [
     {
@@ -410,7 +461,7 @@
       "path": "Time"
     }
   ],
-  "publication_date": "2026-08-14T00:00:00+00:00",
+  "publication_date": "2026-08-17T00:00:00+00:00",
   "schema_version": 1,
   "variables": [
     {
@@ -519,6 +570,34 @@
     {
       "access": "ReadOnly",
       "access_level": 1,
+      "browse_name": "LastOperationResult",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Bounded result or validation summary for the latest calibration operation.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationResult",
+      "parent": "Calibration",
+      "path": "Calibration.LastOperationResult",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastOperationTime",
+      "data_type": "DateTime",
+      "data_type_node_id": "i=13",
+      "description": "Completion, failure, or abort time of the latest calibration operation.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationTime",
+      "parent": "Calibration",
+      "path": "Calibration.LastOperationTime",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
       "browse_name": "LastUpdate",
       "data_type": "DateTime",
       "data_type_node_id": "i=13",
@@ -561,6 +640,42 @@
     {
       "access": "ReadOnly",
       "access_level": 1,
+      "browse_name": "OperationState",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Calibration execution state: Idle, Starting, Running, Restoring, Completed, Failed, Aborted, or Unknown.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.OperationState",
+      "parent": "Calibration",
+      "path": "Calibration.OperationState",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "ProgressPercent",
+      "data_type": "Double",
+      "data_type_node_id": "i=11",
+      "description": "Best available calibration progress estimate. Unknown progress is NaN with a non-good StatusCode.",
+      "engineering_range": {
+        "high": 100.0,
+        "low": 0.0
+      },
+      "engineering_unit": {
+        "description": "%",
+        "namespace_uri": "urn:fnal:gizmo:units",
+        "symbol": "%",
+        "unit_id": 6
+      },
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.ProgressPercent",
+      "parent": "Calibration",
+      "path": "Calibration.ProgressPercent",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
       "browse_name": "Quality",
       "data_type": "String",
       "data_type_node_id": "i=12",
@@ -570,6 +685,20 @@
       "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.Quality",
       "parent": "Calibration",
       "path": "Calibration.Quality",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "RestorationState",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Normal-state restoration: NotRequired, Commanded, Verified, Failed, or Unknown.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.RestorationState",
+      "parent": "Calibration",
+      "path": "Calibration.RestorationState",
       "value_rank": -1
     },
     {
@@ -2073,6 +2202,25 @@
       "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.Sequence",
       "parent": "Measurement",
       "path": "Measurement.Sequence",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "StimulusCurrentRmsAmpere",
+      "data_type": "Double",
+      "data_type_node_id": "i=11",
+      "description": "RMS AC stimulus current delivered to the detector-ground measurement path. The node remains BadNotSupported/NaN until the monitor-point transfer function, bandwidth, RMS conversion, and uncertainty are validated.",
+      "engineering_range": null,
+      "engineering_unit": {
+        "description": "A",
+        "namespace_uri": "urn:fnal:gizmo:units",
+        "symbol": "A",
+        "unit_id": 10
+      },
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.StimulusCurrentRmsAmpere",
+      "parent": "Measurement",
+      "path": "Measurement.StimulusCurrentRmsAmpere",
       "value_rank": -1
     },
     {
@@ -3631,6 +3779,132 @@
       "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.OperatingSystem.VersionId",
       "parent": "OperatingSystem",
       "path": "OperatingSystem.VersionId",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "CommandGateState",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Mutating-command gate: Disabled, Ready, Busy, MaintenanceLocked, or FaultLocked.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.CommandGateState",
+      "parent": "Operations",
+      "path": "Operations.CommandGateState",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandCompletionTime",
+      "data_type": "DateTime",
+      "data_type_node_id": "i=13",
+      "description": "UTC time the latest mutating request reached a terminal state.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandCompletionTime",
+      "parent": "Operations",
+      "path": "Operations.LastCommandCompletionTime",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandId",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Opaque identifier for the latest accepted or rejected mutation.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandId",
+      "parent": "Operations",
+      "path": "Operations.LastCommandId",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandName",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Canonical name of the latest accepted or rejected mutation.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandName",
+      "parent": "Operations",
+      "path": "Operations.LastCommandName",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandParameters",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Bounded, sanitized parameters for the latest mutation.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandParameters",
+      "parent": "Operations",
+      "path": "Operations.LastCommandParameters",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandRequestTime",
+      "data_type": "DateTime",
+      "data_type_node_id": "i=13",
+      "description": "UTC time the latest mutating request was received.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandRequestTime",
+      "parent": "Operations",
+      "path": "Operations.LastCommandRequestTime",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandRequester",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Authenticated user or service identity for the latest mutation.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandRequester",
+      "parent": "Operations",
+      "path": "Operations.LastCommandRequester",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandResult",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Bounded result or failure reason for the latest mutation.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandResult",
+      "parent": "Operations",
+      "path": "Operations.LastCommandResult",
+      "value_rank": -1
+    },
+    {
+      "access": "ReadOnly",
+      "access_level": 1,
+      "browse_name": "LastCommandState",
+      "data_type": "String",
+      "data_type_node_id": "i=12",
+      "description": "Execution state: Idle, Accepted, Running, Succeeded, Failed, Rejected, or TimedOut.",
+      "engineering_range": null,
+      "engineering_unit": null,
+      "node_id": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandState",
+      "parent": "Operations",
+      "path": "Operations.LastCommandState",
       "value_rank": -1
     },
     {

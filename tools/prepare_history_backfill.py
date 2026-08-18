@@ -83,7 +83,7 @@ FAST_IMPORT_PATHS = (
     "Alarm.Active",
     # This string is authoritative for HIGH Z. Historical model-1.3.0 rows
     # retain their captured Bad_OutofRange status during migration; current
-    # model 1.3.1 publishes the same null/OutOfRange state with Good status.
+    # model 1.4.0 publishes the same null/OutOfRange state with Good status.
     # No artificial 500 ohm value is introduced.
     "Measurement.ResistanceRange",
 )
@@ -258,8 +258,16 @@ def historical_path(
     gateway: str,
     tag_provider: str,
     tag_root: str,
+    path_syntax: str = "core",
 ) -> str:
     tag_path = ignition_tag_path(variable)
+    if path_syntax == "sql":
+        return (
+            f"histprov:{provider}:/drv:{gateway}:{tag_provider}:"
+            f"/tag:{tag_root}/{tag_path}"
+        )
+    if path_syntax != "core":
+        raise ValueError(f"unsupported historian path syntax: {path_syntax}")
     return (
         f"histprov:{provider}:/sys:{gateway}:/prov:{tag_provider}:"
         f"/tag:{tag_root}/{tag_path}"
@@ -314,10 +322,24 @@ class DailyWriter:
 
 
 def source_rows(
-    connection: sqlite3.Connection, table: str
+    connection: sqlite3.Connection,
+    table: str,
+    start_timestamp_ms: Optional[int],
+    before_timestamp_ms: Optional[int],
 ) -> Iterator[sqlite3.Row]:
+    predicates: list[str] = []
+    parameters: list[int] = []
+    if start_timestamp_ms is not None:
+        predicates.append("receive_time_us >= ?")
+        parameters.append(start_timestamp_ms * 1000)
+    if before_timestamp_ms is not None:
+        predicates.append("receive_time_us < ?")
+        parameters.append(before_timestamp_ms * 1000)
+    where = " WHERE " + " AND ".join(predicates) if predicates else ""
     yield from connection.execute(
-        f"SELECT receive_time_us, payload FROM {table} ORDER BY receive_time_us"
+        f"SELECT receive_time_us, payload FROM {table}{where} "
+        "ORDER BY receive_time_us",
+        parameters,
     )
 
 
@@ -328,6 +350,8 @@ def prepare_group(
     table: str,
     capture_paths: tuple[str, ...],
     import_paths: tuple[str, ...],
+    start_timestamp_ms: Optional[int],
+    before_timestamp_ms: Optional[int],
 ) -> tuple[list[dict[str, Any]], Counter[str], int]:
     indices = [capture_paths.index(path) for path in import_paths]
     status_counts: Counter[str] = Counter()
@@ -335,7 +359,9 @@ def prepare_group(
     writer: Optional[DailyWriter] = None
     total_rows = 0
 
-    for row in source_rows(connection, table):
+    for row in source_rows(
+        connection, table, start_timestamp_ms, before_timestamp_ms
+    ):
         receive_time_us = int(row["receive_time_us"])
         timestamp_ms = receive_time_us // 1000
         day = datetime.fromtimestamp(
@@ -360,7 +386,13 @@ def prepare_group(
     return files, status_counts, total_rows
 
 
-def existing_output_is_valid(output: Path, source_sha256: str) -> bool:
+def existing_output_is_valid(
+    output: Path,
+    source_sha256: str,
+    start_timestamp_ms: Optional[int],
+    before_timestamp_ms: Optional[int],
+    destination: dict[str, str],
+) -> bool:
     manifest_path = output / "manifest.json"
     if not manifest_path.is_file():
         return False
@@ -371,6 +403,13 @@ def existing_output_is_valid(output: Path, source_sha256: str) -> bool:
     if manifest.get("source", {}).get("sha256") != source_sha256:
         return False
     if manifest.get("tag_path_policy") != TAG_PATH_POLICY:
+        return False
+    if manifest.get("source_window") != {
+        "start_timestamp_ms_inclusive": start_timestamp_ms,
+        "before_timestamp_ms_exclusive": before_timestamp_ms,
+    }:
+        return False
+    if manifest.get("destination") != destination:
         return False
     for item in manifest.get("files", []):
         path = output / str(item.get("path", ""))
@@ -388,7 +427,29 @@ def main() -> int:
     parser.add_argument("--gateway-name", required=True)
     parser.add_argument("--tag-provider", default="default")
     parser.add_argument("--tag-root", default="GIZMo")
+    parser.add_argument(
+        "--historian-path-syntax",
+        choices=("core", "sql"),
+        default="core",
+    )
+    parser.add_argument("--start-timestamp-ms", type=int)
+    parser.add_argument("--before-timestamp-ms", type=int)
     args = parser.parse_args()
+
+    for label, value in (
+        ("--start-timestamp-ms", args.start_timestamp_ms),
+        ("--before-timestamp-ms", args.before_timestamp_ms),
+    ):
+        if value is not None and value < 0:
+            parser.error(f"{label} must be non-negative")
+    if (
+        args.start_timestamp_ms is not None
+        and args.before_timestamp_ms is not None
+        and args.start_timestamp_ms >= args.before_timestamp_ms
+    ):
+        parser.error(
+            "--start-timestamp-ms must be less than --before-timestamp-ms"
+        )
 
     database = args.database.resolve()
     if not database.is_file():
@@ -400,8 +461,21 @@ def main() -> int:
             f"found {source_sha256}"
         )
 
+    destination = {
+        "historian_provider": args.historian_provider,
+        "gateway_name": args.gateway_name,
+        "tag_provider": args.tag_provider,
+        "tag_root": args.tag_root,
+        "historian_path_syntax": args.historian_path_syntax,
+    }
     output = args.output_dir.resolve()
-    if output.exists() and existing_output_is_valid(output, source_sha256):
+    if output.exists() and existing_output_is_valid(
+        output,
+        source_sha256,
+        args.start_timestamp_ms,
+        args.before_timestamp_ms,
+        destination,
+    ):
         print(
             json.dumps(
                 {
@@ -440,6 +514,8 @@ def main() -> int:
                 table,
                 capture_paths,
                 import_paths,
+                args.start_timestamp_ms,
+                args.before_timestamp_ms,
             )
             files.extend(group_files)
             group_details[group] = {
@@ -453,6 +529,7 @@ def main() -> int:
                         gateway=args.gateway_name,
                         tag_provider=args.tag_provider,
                         tag_root=args.tag_root,
+                        path_syntax=args.historian_path_syntax,
                     )
                     for path in import_paths
                 ],
@@ -471,7 +548,7 @@ def main() -> int:
         ),
         "high_z_policy": (
             "Historical source status is preserved: model-1.3.0 rows may carry "
-            "null/Bad_OutofRange while current model 1.3.1 uses null/Good; "
+            "null/Bad_OutofRange while current model 1.4.0 uses null/Good; "
             "ResistanceRange retains the authoritative OutOfRange string."
         ),
         "quality_policy": (
@@ -486,12 +563,11 @@ def main() -> int:
             "schema_version": 2,
             "quick_check": "ok",
         },
-        "destination": {
-            "historian_provider": args.historian_provider,
-            "gateway_name": args.gateway_name,
-            "tag_provider": args.tag_provider,
-            "tag_root": args.tag_root,
+        "source_window": {
+            "start_timestamp_ms_inclusive": args.start_timestamp_ms,
+            "before_timestamp_ms_exclusive": args.before_timestamp_ms,
         },
+        "destination": destination,
         "groups": group_details,
         "files": files,
         "totals": {

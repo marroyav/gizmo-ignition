@@ -10,11 +10,13 @@ migration tooling for two GIZMo implementations:
 Both devices use the canonical `urn:fnal:gizmo` namespace. The Kria
 implementation is the sole authority for this GIZMo--Slow Controls contract;
 the ZedBoard is a separate conforming producer at a distinct endpoint. The
-committed project contains 457 tags per device, a Perspective overview for each device,
-a tag inventory, tag groups, history migration tools, and deterministic
-resource-generation inputs.
+committed project contains 472 tags per device, a Perspective overview for
+each device, a tag inventory, tag groups, history migration tools, and
+deterministic resource-generation inputs.
 
-Model 1.3.1 is pinned by the contract hash recorded in the project manifest.
+Model 1.4.0 is pinned by the contract hash recorded in the project manifest.
+It adds command-audit and gate state, calibration/restoration state, narrow
+recovery methods, and the reserved stimulus-current monitor.
 The normative machine-readable artifact is
 [`schema/gizmo-opcua-contract.json`](https://github.com/marroyav/GIZMo/blob/main/schema/gizmo-opcua-contract.json)
 in the Kria producer repository. An exact digest-pinned snapshot is committed
@@ -103,6 +105,12 @@ The SQLite-to-Ignition scripts verify immutable inputs, checksums, SQLite
 integrity, resumable batches, historian boundary reads, and redacted database
 configuration plans. Real SQLite archives and generated batches are not
 included.
+
+PostgreSQL is supported as the off-board long-term historian. The configuration
+tool encrypts the database credential with the destination Gateway's key; the
+backfill uses SQL Historian `drv` paths and can require exact readback before
+each batch is checkpointed. Database endpoints, certificates, credentials,
+backups, and production ownership remain site configuration.
 
 ## Publication boundary
 

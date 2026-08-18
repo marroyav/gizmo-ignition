@@ -120,17 +120,17 @@ class DualProjectTests(unittest.TestCase):
     def test_manifest_records_capability_scoped_write_policy(self) -> None:
         manifest = json.loads((PROJECT / "manifest.json").read_text())
         self.assertEqual(manifest["format"], "gizmo-ignition-dual/v2")
-        self.assertEqual(manifest["opcua_model_version"], "1.3.1")
+        self.assertEqual(manifest["opcua_model_version"], "1.4.0")
         self.assertEqual(
             manifest["opcua_contract_sha256"],
-            "25d758ecb65db09a03f5acbbf39db714caa711efbac4d4b286c3ff63b2459201",
+            "7dcad3112b8d10adf9b05c6b7acc41b1d52dd4ec97b15c94baabd6cc0850bf49",
         )
         self.assertEqual(
             manifest["opcua_contract_authority"],
             "GIZMo Kria OPC UA implementation",
         )
-        self.assertEqual(manifest["variable_count_per_device"], 457)
-        self.assertEqual(manifest["total_tag_count"], 914)
+        self.assertEqual(manifest["variable_count_per_device"], 472)
+        self.assertEqual(manifest["total_tag_count"], 944)
         self.assertFalse(manifest["bridge_read_only"])
         self.assertEqual(
             {key: set(value) for key, value in manifest["write_policy"].items()},

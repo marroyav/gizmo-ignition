@@ -213,6 +213,20 @@
     "documentation": "Monotonic sequence assigned to each observed ZMon record."
   },
   {
+    "name": "StimulusCurrentRmsAmpere",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Float8",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Fast",
+    "opcServer": "GIZMo Legacy",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.StimulusCurrentRmsAmpere",
+    "documentation": "RMS AC stimulus current delivered to the detector-ground measurement path. The node remains BadNotSupported/NaN until the monitor-point transfer function, bandwidth, RMS conversion, and uncertainty are validated.",
+    "engUnit": "A"
+  },
+  {
     "name": "StimulusFrequencyHertz",
     "tagType": "AtomicTag",
     "valueSource": "opc",

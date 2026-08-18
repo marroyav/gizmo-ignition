@@ -3,10 +3,10 @@
   "ignition_target": "8.3.8",
   "project": "GIZMo",
   "namespace_uri": "urn:fnal:gizmo",
-  "schema_sha256": "1a09ec04deb03355a1603e7c2c1279511e520906386981aab064cd9a629afe5a",
-  "opcua_model_version": "1.3.1",
+  "schema_sha256": "0aad75b98d9eec4d2402239400d98eb5598036e02fcc83635447a5cbd0a9e0f0",
+  "opcua_model_version": "1.4.0",
   "opcua_contract_authority": "GIZMo Kria OPC UA implementation",
-  "opcua_contract_sha256": "25d758ecb65db09a03f5acbbf39db714caa711efbac4d4b286c3ff63b2459201",
+  "opcua_contract_sha256": "7dcad3112b8d10adf9b05c6b7acc41b1d52dd4ec97b15c94baabd6cc0850bf49",
   "devices": [
     {
       "name": "Kria",
@@ -26,8 +26,8 @@
     }
   ],
   "no_cross_device_control": true,
-  "variable_count_per_device": 457,
-  "total_tag_count": 914,
+  "variable_count_per_device": 472,
+  "total_tag_count": 944,
   "bridge_read_only": false,
   "write_policy": {
     "Kria": [

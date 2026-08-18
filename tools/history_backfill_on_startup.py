@@ -5,7 +5,7 @@ def onStartup():
         import os
         import sys
         from java.io import BufferedReader, File, FileInputStream, InputStreamReader, RandomAccessFile
-        from java.lang import Thread
+        from java.lang import Long, Thread
         from java.util.zip import GZIPInputStream
 
         logger = system.util.getLogger("gizmo.history.backfill")
@@ -142,17 +142,21 @@ def onStartup():
             return "[default]" + tagPath
 
         def qualifiedHistorianPath(historyPath):
-            marker = ":/sys:"
-            if not historyPath.startswith("histprov:") or marker not in historyPath:
+            if not historyPath.startswith("histprov:"):
                 raise ValueError(
                     "historical path cannot be retargeted: " + historyPath
                 )
-            return (
-                "histprov:"
-                + destinationHistorian
-                + marker
-                + historyPath.split(marker, 1)[1]
-            )
+            qualifierIndex = historyPath.find(":/", len("histprov:"))
+            if qualifierIndex < 0:
+                raise ValueError(
+                    "historical path has no qualified suffix: " + historyPath
+                )
+            suffix = historyPath[qualifierIndex:]
+            if not (suffix.startswith(":/sys:") or suffix.startswith(":/drv:")):
+                raise ValueError(
+                    "historical path has an unsupported qualifier: " + historyPath
+                )
+            return "histprov:" + destinationHistorian + suffix
 
         def storagePath(historyPath):
             if storagePathMode == "live-tag":
@@ -170,6 +174,13 @@ def onStartup():
                 except (TypeError, ValueError):
                     return False
             return actual == expected
+
+        def historianValue(value):
+            if isinstance(value, bool):
+                return value
+            if isinstance(value, (int, long)):
+                return Long(str(value))
+            return value
 
         def queryExact(historyPath, timestampMs, expectedValue, expectedQuality):
             rows = []
@@ -262,6 +273,7 @@ def onStartup():
             queryDelayMs = max(
                 0, min(int(control.get("query_delay_ms", 250)), 10000)
             )
+            verifyEachBatch = bool(control.get("verify_each_batch", False))
         except Exception as error:
             logger.error("Invalid GIZMo history control file: " + str(error))
             return
@@ -369,13 +381,13 @@ def onStartup():
                     timestampMs = int(record[0])
                     value = list(record[1])[index]
                     quality = int(list(record[2])[index])
-                    result = system.historian.storeDataPoints(
-                        [storePath],
-                        [value],
-                        [system.date.fromMillis(timestampMs)],
-                        [quality],
-                        True,
+                    point = system.historian.types.dataPoint(
+                        storePath,
+                        historianValue(value),
+                        system.date.fromMillis(timestampMs),
+                        quality,
                     )
+                    result = system.historian.storeDataPoints([point])
                     if hasattr(result, "isGood"):
                         accepted = bool(result.isGood())
                         resultText = str(result)
@@ -467,29 +479,21 @@ def onStartup():
                     1024 * 1024,
                 )
                 rowNumber = 0
-                batchPaths = []
-                batchValues = []
-                batchTimestamps = []
-                batchQualities = []
+                batchPoints = []
                 batchEndRow = completedRows
                 progress = {
                     "points": int(fileState.get("points", 0)),
                     "skipped": int(fileState.get("null_points_skipped", 0)),
                     "pending_skipped": 0,
+                    "pending_verification": None,
                 }
 
                 def flushBatch():
-                    if not batchPaths and batchEndRow <= completedRows:
+                    if not batchPoints and batchEndRow <= completedRows:
                         return
-                    written = len(batchPaths)
-                    if batchPaths:
-                        results = system.historian.storeDataPoints(
-                            batchPaths,
-                            batchValues,
-                            batchTimestamps,
-                            batchQualities,
-                            True,
-                        )
+                    written = len(batchPoints)
+                    if batchPoints:
+                        results = system.historian.storeDataPoints(batchPoints)
                         if hasattr(results, "isGood"):
                             failures = [] if results.isGood() else [str(results)]
                         else:
@@ -501,9 +505,32 @@ def onStartup():
                                 "historian rejected %d point(s): %s"
                                 % (len(failures), ", ".join(failures[:5]))
                             )
+                        if verifyEachBatch:
+                            verification = progress["pending_verification"]
+                            if verification is None:
+                                raise RuntimeError(
+                                    "historian batch has no verification point"
+                                )
+                            query = queryExact(
+                                verification[0],
+                                verification[1],
+                                verification[2],
+                                verification[3],
+                            )
+                            if not query["matched"]:
+                                raise RuntimeError(
+                                    "historian batch readback did not match: "
+                                    "path=%s timestamp=%s error=%s"
+                                    % (
+                                        verification[0],
+                                        verification[1],
+                                        query["error"],
+                                    )
+                                )
                     progress["points"] += written
                     progress["skipped"] += progress["pending_skipped"]
                     progress["pending_skipped"] = 0
+                    progress["pending_verification"] = None
                     fileState["rows"] = batchEndRow
                     fileState["points"] = progress["points"]
                     fileState["null_points_skipped"] = progress["skipped"]
@@ -524,10 +551,7 @@ def onStartup():
                     )
                     state["updated_at"] = utcNow()
                     writeJsonAtomic(statePath, state)
-                    del batchPaths[:]
-                    del batchValues[:]
-                    del batchTimestamps[:]
-                    del batchQualities[:]
+                    del batchPoints[:]
 
                 try:
                     while True:
@@ -548,7 +572,7 @@ def onStartup():
                         if len(values) != len(historyPaths) or len(qualities) != len(historyPaths):
                             raise ValueError("staged record does not match manifest paths")
                         nonNullCount = sum(1 for value in values if value is not None)
-                        if batchPaths and len(batchPaths) + nonNullCount > batchLimit:
+                        if batchPoints and len(batchPoints) + nonNullCount > batchLimit:
                             flushBatch()
                             if os.path.isfile(stopPath):
                                 state["status"] = "paused"
@@ -564,10 +588,20 @@ def onStartup():
                                 # ResistanceRange=OutOfRange for HIGH Z).
                                 progress["pending_skipped"] += 1
                                 continue
-                            batchPaths.append(storePaths[pointIndex])
-                            batchValues.append(values[pointIndex])
-                            batchTimestamps.append(timestamp)
-                            batchQualities.append(qualities[pointIndex])
+                            batchPoints.append(
+                                system.historian.types.dataPoint(
+                                    storePaths[pointIndex],
+                                    historianValue(values[pointIndex]),
+                                    timestamp,
+                                    qualities[pointIndex],
+                                )
+                            )
+                            progress["pending_verification"] = (
+                                storePaths[pointIndex],
+                                timestampMs,
+                                values[pointIndex],
+                                qualities[pointIndex],
+                            )
                         batchEndRow = rowNumber
                     flushBatch()
                 finally:
@@ -704,7 +738,8 @@ def onStartup():
                 "GIZMo history backfill run finished: status=%s rows=%s points=%s"
                 % (state["status"], state["rows_written"], state["points_written"])
             )
-        except Exception as error:
+        except:
+            error = sys.exc_info()[1]
             state["status"] = "failed"
             state["updated_at"] = utcNow()
             state["last_error"] = str(error)

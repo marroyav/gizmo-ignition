@@ -76,6 +76,14 @@ def main() -> int:
     parser.add_argument("--lock-file", default="backfill.lock")
     parser.add_argument("--query-attempts", type=int, default=3)
     parser.add_argument("--query-delay-ms", type=int, default=250)
+    parser.add_argument(
+        "--verify-each-batch",
+        action="store_true",
+        help=(
+            "require exact historian readback of each batch's final point "
+            "before checkpointing"
+        ),
+    )
     parser.add_argument("--migrate-service-tag-paths", action="store_true")
     parser.add_argument(
         "--service-tag-resource-root",
@@ -179,6 +187,7 @@ def main() -> int:
             "lock_file": lock_file,
             "query_attempts": args.query_attempts,
             "query_delay_ms": args.query_delay_ms,
+            "verify_each_batch": args.verify_each_batch,
             "migrate_service_tag_paths": args.migrate_service_tag_paths,
             "legacy_service_tag_resource_root": args.service_tag_resource_root,
         },

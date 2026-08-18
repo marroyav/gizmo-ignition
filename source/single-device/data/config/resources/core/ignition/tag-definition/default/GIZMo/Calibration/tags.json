@@ -40,6 +40,32 @@
     "documentation": "Newest modification time among the calibration tables."
   },
   {
+    "name": "LastOperationResult",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Inventory",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationResult",
+    "documentation": "Bounded result or validation summary for the latest calibration operation."
+  },
+  {
+    "name": "LastOperationTime",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "DateTime",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Inventory",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationTime",
+    "documentation": "Completion, failure, or abort time of the latest calibration operation."
+  },
+  {
     "name": "LastUpdate",
     "tagType": "AtomicTag",
     "valueSource": "opc",
@@ -79,6 +105,35 @@
     "documentation": "Averaging interval persisted in package-owned state."
   },
   {
+    "name": "OperationState",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Inventory",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.OperationState",
+    "documentation": "Calibration execution state: Idle, Starting, Running, Restoring, Completed, Failed, Aborted, or Unknown."
+  },
+  {
+    "name": "ProgressPercent",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "Float8",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Inventory",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.ProgressPercent",
+    "documentation": "Best available calibration progress estimate. Unknown progress is NaN with a non-good StatusCode.",
+    "engUnit": "%",
+    "engLow": 0.0,
+    "engHigh": 100.0
+  },
+  {
     "name": "Quality",
     "tagType": "AtomicTag",
     "valueSource": "opc",
@@ -90,6 +145,19 @@
     "opcServer": "GIZMo Bridge",
     "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.Quality",
     "documentation": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+  },
+  {
+    "name": "RestorationState",
+    "tagType": "AtomicTag",
+    "valueSource": "opc",
+    "dataType": "String",
+    "enabled": true,
+    "readOnly": true,
+    "historyEnabled": false,
+    "tagGroup": "GIZMo Inventory",
+    "opcServer": "GIZMo Bridge",
+    "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.RestorationState",
+    "documentation": "Normal-state restoration: NotRequired, Commanded, Verified, Failed, or Unknown."
   },
   {
     "name": "State",

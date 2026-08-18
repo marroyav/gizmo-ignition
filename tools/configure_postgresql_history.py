@@ -25,6 +25,7 @@ DATABASE_RESOURCE_TYPE = "ignition/database-connection"
 HISTORIAN_RESOURCE_TYPE = "com.inductiveautomation.historian/historian-provider"
 SSL_MODES = ("require", "verify-ca", "verify-full")
 SAFE_IDENTIFIER = re.compile(r"^[A-Za-z0-9_.-]+$")
+JWE_FIELDS = ("protected", "encrypted_key", "iv", "ciphertext", "tag")
 
 
 def validate_host(host: str) -> str:
@@ -84,13 +85,13 @@ def database_connection_payload(
     name: str,
     connect_url: str,
     username: str,
-    password: str,
+    password: str | dict[str, Any],
 ) -> dict[str, Any]:
     return {
         "name": name,
         "description": (
-            "Managed PostgreSQL connection dedicated to the GIZMo Ignition "
-            "SQL Historian."
+            "PostgreSQL connection dedicated to the GIZMo Ignition SQL "
+            "Historian."
         ),
         "enabled": True,
         "config": {
@@ -123,12 +124,44 @@ def database_connection_payload(
     }
 
 
+def embedded_secret_config(
+    gateway: GatewaySession, plaintext: str
+) -> dict[str, Any]:
+    """Encrypt a database password with the destination Gateway's key."""
+
+    if not plaintext:
+        raise ValueError("cannot encrypt an empty PostgreSQL password")
+    response = gateway.session.post(
+        f"{gateway.base_url}/data/api/v1/encryption/encrypt",
+        data=plaintext.encode("utf-8"),
+        headers={"Content-Type": "text/plain; charset=utf-8"},
+        timeout=30,
+    )
+    if not response.ok:
+        raise RuntimeError(
+            "Ignition failed to encrypt the PostgreSQL credential: "
+            f"HTTP {response.status_code}"
+        )
+    ciphertext = response.json()
+    if not isinstance(ciphertext, dict) or any(
+        not isinstance(ciphertext.get(field), str) or not ciphertext[field]
+        for field in JWE_FIELDS
+    ):
+        raise RuntimeError(
+            "Ignition returned an invalid encrypted-secret response"
+        )
+    return {
+        "type": "Embedded",
+        "data": {field: ciphertext[field] for field in JWE_FIELDS},
+    }
+
+
 def sql_historian_payload(name: str, database_connection: str) -> dict[str, Any]:
     return {
         "name": name,
         "description": (
-            "Permanent GIZMo SQL Historian backed by managed PostgreSQL; "
-            "monthly partitions and no automatic pruning."
+            "GIZMo SQL Historian backed by PostgreSQL; monthly partitions "
+            "and no automatic pruning."
         ),
         "enabled": True,
         "config": {
@@ -436,6 +469,9 @@ def main() -> int:
         verify_database_connection(database_resource, url, username)
         database_action = "already-present"
     else:
+        database_payload["config"]["password"] = embedded_secret_config(
+            gateway, database_password
+        )
         create_resource(gateway, DATABASE_RESOURCE_TYPE, database_payload)
         database_action = "created"
 

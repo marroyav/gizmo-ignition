@@ -47,7 +47,7 @@
           "shrink": 1
         },
         "props": {
-          "text": "457 canonical variables per device · approved configuration writes enabled · history disabled",
+          "text": "472 canonical variables per device · approved configuration writes enabled · history disabled",
           "textStyle": {
             "color": "#c3c9cf",
             "fontFamily": "JetBrains Mono, IBM Plex Mono, monospace",
@@ -139,6 +139,26 @@
               "description": "Newest modification time among the calibration tables."
             },
             {
+              "path": "Calibration/LastOperationResult",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Bounded result or validation summary for the latest calibration operation."
+            },
+            {
+              "path": "Calibration/LastOperationTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Completion, failure, or abort time of the latest calibration operation."
+            },
+            {
               "path": "Calibration/LastUpdate",
               "opcType": "DateTime",
               "ignitionType": "DateTime",
@@ -169,6 +189,26 @@
               "description": "Averaging interval persisted in package-owned state."
             },
             {
+              "path": "Calibration/OperationState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Calibration execution state: Idle, Starting, Running, Restoring, Completed, Failed, Aborted, or Unknown."
+            },
+            {
+              "path": "Calibration/ProgressPercent",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "%",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Best available calibration progress estimate. Unknown progress is NaN with a non-good StatusCode."
+            },
+            {
               "path": "Calibration/Quality",
               "opcType": "String",
               "ignitionType": "String",
@@ -177,6 +217,16 @@
               "sourceWritable": false,
               "bridgeReadOnly": true,
               "description": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+            },
+            {
+              "path": "Calibration/RestorationState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Inventory",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Normal-state restoration: NotRequired, Commanded, Verified, Failed, or Unknown."
             },
             {
               "path": "Calibration/State",
@@ -1229,6 +1279,16 @@
               "description": "Monotonic sequence assigned to each observed ZMon record."
             },
             {
+              "path": "Measurement/StimulusCurrentRmsAmpere",
+              "opcType": "Double",
+              "ignitionType": "Float8",
+              "unit": "A",
+              "group": "GIZMo Fast",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "RMS AC stimulus current delivered to the detector-ground measurement path. The node remains BadNotSupported/NaN until the monitor-point transfer function, bandwidth, RMS conversion, and uncertainty are validated."
+            },
+            {
               "path": "Measurement/StimulusFrequencyHertz",
               "opcType": "Double",
               "ignitionType": "Float8",
@@ -2277,6 +2337,96 @@
               "sourceWritable": false,
               "bridgeReadOnly": true,
               "description": "Operating-system distribution version."
+            },
+            {
+              "path": "Operations/CommandGateState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Mutating-command gate: Disabled, Ready, Busy, MaintenanceLocked, or FaultLocked."
+            },
+            {
+              "path": "Operations/LastCommandCompletionTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "UTC time the latest mutating request reached a terminal state."
+            },
+            {
+              "path": "Operations/LastCommandId",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Opaque identifier for the latest accepted or rejected mutation."
+            },
+            {
+              "path": "Operations/LastCommandName",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Canonical name of the latest accepted or rejected mutation."
+            },
+            {
+              "path": "Operations/LastCommandParameters",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Bounded, sanitized parameters for the latest mutation."
+            },
+            {
+              "path": "Operations/LastCommandRequestTime",
+              "opcType": "DateTime",
+              "ignitionType": "DateTime",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "UTC time the latest mutating request was received."
+            },
+            {
+              "path": "Operations/LastCommandRequester",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Authenticated user or service identity for the latest mutation."
+            },
+            {
+              "path": "Operations/LastCommandResult",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Bounded result or failure reason for the latest mutation."
+            },
+            {
+              "path": "Operations/LastCommandState",
+              "opcType": "String",
+              "ignitionType": "String",
+              "unit": "",
+              "group": "GIZMo Platform",
+              "sourceWritable": false,
+              "bridgeReadOnly": true,
+              "description": "Execution state: Idle, Accepted, Running, Succeeded, Failed, Rejected, or TimedOut."
             },
             {
               "path": "SDR/Available",

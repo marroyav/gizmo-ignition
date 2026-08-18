@@ -120,6 +120,32 @@
                 "documentation": "Newest modification time among the calibration tables."
               },
               {
+                "name": "LastOperationResult",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationResult",
+                "documentation": "Bounded result or validation summary for the latest calibration operation."
+              },
+              {
+                "name": "LastOperationTime",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "DateTime",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationTime",
+                "documentation": "Completion, failure, or abort time of the latest calibration operation."
+              },
+              {
                 "name": "LastUpdate",
                 "tagType": "AtomicTag",
                 "valueSource": "opc",
@@ -159,6 +185,35 @@
                 "documentation": "Averaging interval persisted in package-owned state."
               },
               {
+                "name": "OperationState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.OperationState",
+                "documentation": "Calibration execution state: Idle, Starting, Running, Restoring, Completed, Failed, Aborted, or Unknown."
+              },
+              {
+                "name": "ProgressPercent",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "Float8",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.ProgressPercent",
+                "documentation": "Best available calibration progress estimate. Unknown progress is NaN with a non-good StatusCode.",
+                "engUnit": "%",
+                "engLow": 0.0,
+                "engHigh": 100.0
+              },
+              {
                 "name": "Quality",
                 "tagType": "AtomicTag",
                 "valueSource": "opc",
@@ -170,6 +225,19 @@
                 "opcServer": "GIZMo Kria",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.Quality",
                 "documentation": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+              },
+              {
+                "name": "RestorationState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.RestorationState",
+                "documentation": "Normal-state restoration: NotRequired, Commanded, Verified, Failed, or Unknown."
               },
               {
                 "name": "State",
@@ -1605,6 +1673,20 @@
                 "documentation": "Monotonic sequence assigned to each observed ZMon record."
               },
               {
+                "name": "StimulusCurrentRmsAmpere",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "Float8",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Fast",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.StimulusCurrentRmsAmpere",
+                "documentation": "RMS AC stimulus current delivered to the detector-ground measurement path. The node remains BadNotSupported/NaN until the monitor-point transfer function, bandwidth, RMS conversion, and uncertainty are validated.",
+                "engUnit": "A"
+              },
+              {
                 "name": "StimulusFrequencyHertz",
                 "tagType": "AtomicTag",
                 "valueSource": "opc",
@@ -3023,6 +3105,129 @@
                 "opcServer": "GIZMo Kria",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.OperatingSystem.VersionId",
                 "documentation": "Operating-system distribution version."
+              }
+            ]
+          },
+          {
+            "name": "Operations",
+            "tagType": "Folder",
+            "tags": [
+              {
+                "name": "CommandGateState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.CommandGateState",
+                "documentation": "Mutating-command gate: Disabled, Ready, Busy, MaintenanceLocked, or FaultLocked."
+              },
+              {
+                "name": "LastCommandCompletionTime",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "DateTime",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandCompletionTime",
+                "documentation": "UTC time the latest mutating request reached a terminal state."
+              },
+              {
+                "name": "LastCommandId",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandId",
+                "documentation": "Opaque identifier for the latest accepted or rejected mutation."
+              },
+              {
+                "name": "LastCommandName",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandName",
+                "documentation": "Canonical name of the latest accepted or rejected mutation."
+              },
+              {
+                "name": "LastCommandParameters",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandParameters",
+                "documentation": "Bounded, sanitized parameters for the latest mutation."
+              },
+              {
+                "name": "LastCommandRequestTime",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "DateTime",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandRequestTime",
+                "documentation": "UTC time the latest mutating request was received."
+              },
+              {
+                "name": "LastCommandRequester",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandRequester",
+                "documentation": "Authenticated user or service identity for the latest mutation."
+              },
+              {
+                "name": "LastCommandResult",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandResult",
+                "documentation": "Bounded result or failure reason for the latest mutation."
+              },
+              {
+                "name": "LastCommandState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Kria",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandState",
+                "documentation": "Execution state: Idle, Accepted, Running, Succeeded, Failed, Rejected, or TimedOut."
               }
             ]
           },
@@ -6359,6 +6564,32 @@
                 "documentation": "Newest modification time among the calibration tables."
               },
               {
+                "name": "LastOperationResult",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationResult",
+                "documentation": "Bounded result or validation summary for the latest calibration operation."
+              },
+              {
+                "name": "LastOperationTime",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "DateTime",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.LastOperationTime",
+                "documentation": "Completion, failure, or abort time of the latest calibration operation."
+              },
+              {
                 "name": "LastUpdate",
                 "tagType": "AtomicTag",
                 "valueSource": "opc",
@@ -6398,6 +6629,35 @@
                 "documentation": "Averaging interval persisted in package-owned state."
               },
               {
+                "name": "OperationState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.OperationState",
+                "documentation": "Calibration execution state: Idle, Starting, Running, Restoring, Completed, Failed, Aborted, or Unknown."
+              },
+              {
+                "name": "ProgressPercent",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "Float8",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.ProgressPercent",
+                "documentation": "Best available calibration progress estimate. Unknown progress is NaN with a non-good StatusCode.",
+                "engUnit": "%",
+                "engLow": 0.0,
+                "engHigh": 100.0
+              },
+              {
                 "name": "Quality",
                 "tagType": "AtomicTag",
                 "valueSource": "opc",
@@ -6409,6 +6669,19 @@
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.Quality",
                 "documentation": "Human-readable aggregate quality; inspect DataValue StatusCode for machine use."
+              },
+              {
+                "name": "RestorationState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Inventory",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Calibration.RestorationState",
+                "documentation": "Normal-state restoration: NotRequired, Commanded, Verified, Failed, or Unknown."
               },
               {
                 "name": "State",
@@ -7844,6 +8117,20 @@
                 "documentation": "Monotonic sequence assigned to each observed ZMon record."
               },
               {
+                "name": "StimulusCurrentRmsAmpere",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "Float8",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Fast",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Measurement.StimulusCurrentRmsAmpere",
+                "documentation": "RMS AC stimulus current delivered to the detector-ground measurement path. The node remains BadNotSupported/NaN until the monitor-point transfer function, bandwidth, RMS conversion, and uncertainty are validated.",
+                "engUnit": "A"
+              },
+              {
                 "name": "StimulusFrequencyHertz",
                 "tagType": "AtomicTag",
                 "valueSource": "opc",
@@ -9262,6 +9549,129 @@
                 "opcServer": "GIZMo Legacy",
                 "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.OperatingSystem.VersionId",
                 "documentation": "Operating-system distribution version."
+              }
+            ]
+          },
+          {
+            "name": "Operations",
+            "tagType": "Folder",
+            "tags": [
+              {
+                "name": "CommandGateState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.CommandGateState",
+                "documentation": "Mutating-command gate: Disabled, Ready, Busy, MaintenanceLocked, or FaultLocked."
+              },
+              {
+                "name": "LastCommandCompletionTime",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "DateTime",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandCompletionTime",
+                "documentation": "UTC time the latest mutating request reached a terminal state."
+              },
+              {
+                "name": "LastCommandId",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandId",
+                "documentation": "Opaque identifier for the latest accepted or rejected mutation."
+              },
+              {
+                "name": "LastCommandName",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandName",
+                "documentation": "Canonical name of the latest accepted or rejected mutation."
+              },
+              {
+                "name": "LastCommandParameters",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandParameters",
+                "documentation": "Bounded, sanitized parameters for the latest mutation."
+              },
+              {
+                "name": "LastCommandRequestTime",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "DateTime",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandRequestTime",
+                "documentation": "UTC time the latest mutating request was received."
+              },
+              {
+                "name": "LastCommandRequester",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandRequester",
+                "documentation": "Authenticated user or service identity for the latest mutation."
+              },
+              {
+                "name": "LastCommandResult",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandResult",
+                "documentation": "Bounded result or failure reason for the latest mutation."
+              },
+              {
+                "name": "LastCommandState",
+                "tagType": "AtomicTag",
+                "valueSource": "opc",
+                "dataType": "String",
+                "enabled": true,
+                "readOnly": true,
+                "historyEnabled": false,
+                "tagGroup": "GIZMo Platform",
+                "opcServer": "GIZMo Legacy",
+                "opcItemPath": "nsu=urn:fnal:gizmo;s=GIZMo.Operations.LastCommandState",
+                "documentation": "Execution state: Idle, Accepted, Running, Succeeded, Failed, Rejected, or TimedOut."
               }
             ]
           },
